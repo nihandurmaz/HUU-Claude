@@ -127,7 +127,7 @@ export default function IntakeProfileTab({ applicant }) {
           <div>
             <span style={{ fontWeight: 700, fontSize: 16, color: '#242424' }}>Intake Profile</span>
             <p style={{ margin: '2px 0 0', fontSize: 12, color: '#7C7C7C' }}>
-              {state === 'resubmitted' ? 'Submitted on 30th Aug 2024' : 'Submitted on 24th Aug 2024'}
+              {state === 'resubmitted' ? 'Submitted on 30th Aug 2025' : 'Submitted on 24th Aug 2025'}
             </p>
           </div>
         </div>
@@ -136,13 +136,13 @@ export default function IntakeProfileTab({ applicant }) {
 
         {state === 'infoRequested' && (
           <span style={{ fontSize: 13, color: '#D69E2E', fontWeight: 500 }}>
-            25th Aug 2024 | Information requested
+            25th Aug 2025 | Information requested
           </span>
         )}
 
         {state === 'approved' && (
           <span style={{ fontSize: 13, color: '#1A7F37', fontWeight: 500 }}>
-            ✅ Application approved on 1st Sep 2024
+            ✅ Application approved on 1st Sep 2025
           </span>
         )}
       </div>

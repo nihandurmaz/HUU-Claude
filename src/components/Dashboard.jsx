@@ -160,7 +160,7 @@ export default function Dashboard() {
                       <Avatar initials={applicant.initials} color={applicant.avatarColor} size={32} />
                       <button
                         onClick={() => selectApplicant(applicant.id)}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontWeight: 500, fontSize: 14, padding: 0 }}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#242424', fontWeight: 500, fontSize: 14, padding: 0 }}
                       >
                         {applicant.name}
                       </button>

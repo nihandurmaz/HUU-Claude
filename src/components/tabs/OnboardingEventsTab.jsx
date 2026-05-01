@@ -8,28 +8,28 @@ function getPreloadedData(applicant) {
   if (applicant.onboardingState === 'completed') {
     const preloads = {
       2: {
-        event1: { state: 'completed', date: '09/05/2024', time: '11:00', format: 'In-person', completedDate: '09/05/2024', completedTime: '11:00 AM' },
-        event2: { state: 'completed', date: '09/12/2024', time: '10:00', format: 'In-person', completedDate: '09/12/2024', completedTime: '10:00 AM' }
+        event1: { state: 'completed', date: '09/05/2025', time: '11:00', format: 'In-person', completedDate: '09/05/2025', completedTime: '11:00 AM' },
+        event2: { state: 'completed', date: '09/12/2025', time: '10:00', format: 'In-person', completedDate: '09/12/2025', completedTime: '10:00 AM' }
       },
       5: {
-        event1: { state: 'completed', date: '07/15/2024', time: '15:00', format: 'Video call', completedDate: '07/15/2024', completedTime: '3:00 PM' },
-        event2: { state: 'completed', date: '07/22/2024', time: '09:00', format: 'In-person', completedDate: '07/22/2024', completedTime: '9:00 AM' }
+        event1: { state: 'completed', date: '07/15/2025', time: '15:00', format: 'Video call', completedDate: '07/15/2025', completedTime: '3:00 PM' },
+        event2: { state: 'completed', date: '07/22/2025', time: '09:00', format: 'In-person', completedDate: '07/22/2025', completedTime: '9:00 AM' }
       },
       7: {
-        event1: { state: 'completed', date: '08/01/2024', time: '13:00', format: 'In-person', completedDate: '08/01/2024', completedTime: '1:00 PM' },
-        event2: { state: 'completed', date: '08/08/2024', time: '10:00', format: 'In-person', completedDate: '08/08/2024', completedTime: '10:00 AM' }
+        event1: { state: 'completed', date: '08/01/2025', time: '13:00', format: 'In-person', completedDate: '08/01/2025', completedTime: '1:00 PM' },
+        event2: { state: 'completed', date: '08/08/2025', time: '10:00', format: 'In-person', completedDate: '08/08/2025', completedTime: '10:00 AM' }
       }
     };
     return preloads[id] || {
-      event1: { state: 'completed', date: '08/01/2024', time: '10:00', format: 'In-person', completedDate: '08/01/2024', completedTime: '10:00 AM' },
-      event2: { state: 'completed', date: '08/08/2024', time: '10:00', format: 'In-person', completedDate: '08/08/2024', completedTime: '10:00 AM' }
+      event1: { state: 'completed', date: '08/01/2025', time: '10:00', format: 'In-person', completedDate: '08/01/2025', completedTime: '10:00 AM' },
+      event2: { state: 'completed', date: '08/08/2025', time: '10:00', format: 'In-person', completedDate: '08/08/2025', completedTime: '10:00 AM' }
     };
   }
   if (applicant.onboardingState === 'inProgress') {
     if (id === 4) {
       return {
-        event1: { state: 'completed', date: '08/10/2024', time: '14:00', format: 'Video call', completedDate: '08/10/2024', completedTime: '2:00 PM' },
-        event2: { state: 'scheduled', date: '08/20/2024', time: '10:00', format: 'In-person' }
+        event1: { state: 'completed', date: '08/10/2025', time: '14:00', format: 'Video call', completedDate: '08/10/2025', completedTime: '2:00 PM' },
+        event2: { state: 'scheduled', date: '08/20/2025', time: '10:00', format: 'In-person' }
       };
     }
     return { event1: { state: 'notScheduled' }, event2: { state: 'notScheduled' } };
@@ -38,7 +38,7 @@ function getPreloadedData(applicant) {
 }
 
 export default function OnboardingEventsTab({ applicant }) {
-  const { setActiveTab, unlockSidebarTab } = useApp();
+  const { setActiveTab, unlockSidebarTab, showToast } = useApp();
   const onboardingState = applicant.onboardingState;
 
   const preloaded = getPreloadedData(applicant);
@@ -82,7 +82,11 @@ export default function OnboardingEventsTab({ applicant }) {
           scheduleButtonLabel="Schedule Interview"
           isLocked={false}
           preloaded={preloaded.event1}
-          onComplete={() => setEvent1Done(true)}
+          onSendInvitation={() => showToast(`✅ Invitation sent to ${applicant.name}`, 'success')}
+          onComplete={() => {
+            setEvent1Done(true);
+            showToast('✅ Interview marked complete', 'success');
+          }}
         />
 
         <OnboardingEventCard
@@ -91,9 +95,11 @@ export default function OnboardingEventsTab({ applicant }) {
           scheduleButtonLabel="Schedule Training"
           isLocked={!event1Done}
           preloaded={event1Done ? preloaded.event2 : { state: 'notScheduled' }}
+          onSendInvitation={() => showToast(`✅ Invitation sent to ${applicant.name}`, 'success')}
           onComplete={() => {
             setBothDone(true);
             unlockSidebarTab(applicant.id, 'matchmaking');
+            showToast('✅ Training session marked complete', 'success');
           }}
         />
       </div>

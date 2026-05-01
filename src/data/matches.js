@@ -141,7 +141,7 @@ export const matchData = {
     declinedPairs: [
       {
         name: "Roberto Sanchez",
-        declinedDate: "08/01/2024",
+        declinedDate: "08/01/2025",
         reason: "Scheduling conflict",
         declinedBy: "Host"
       }
@@ -394,77 +394,20 @@ export const matchData = {
     ]
   },
   5: {
-    type: "insufficientData",
+    type: "singleMatch",
     guestName: "Olivia Martinez",
-    matches: [],
-    missingSections: [
-      {
-        name: "Substance Use preferences",
-        reason: "Used to determine host household policies"
-      },
-      {
-        name: "LGBTQ+ affirmation needs",
-        reason: "Critical for ensuring a safe home environment"
-      },
-      {
-        name: "Dietary requirements",
-        reason: "Used to match with hosts who can accommodate food needs"
-      }
-    ]
-  },
-  6: {
-    type: "ambiguousData",
-    guestName: "Marcus Lee",
     matches: [
       {
-        id: "h8",
-        name: "Patricia Moore",
-        initials: "PM",
-        score: 69,
-        explanation: "Patricia's household aligns with several of Marcus's stated preferences. Match confidence is reduced due to conflicting profile answers.",
+        id: "h_o1",
+        name: "The Nakamura Family",
+        initials: "NK",
+        score: 72,
+        explanation: "The Nakamura family is LGBTQ+-affirming with a welcoming household environment. Their availability and profile align with several of Olivia's placement preferences, though some details could not be fully verified.",
         criteria: {
           lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
-          dietary: { status: "compatible", label: "Dietary Needs" },
-          substance: { status: "concern", label: "Substance Use" },
+          dietary: { status: "concern", label: "Dietary Needs" },
+          substance: { status: "compatible", label: "Substance Use" },
           mental: { status: "compatible", label: "Mental Health" },
-          cultural: { status: "concern", label: "Cultural Background" },
-          struggles: { status: "compatible", label: "Past Struggles" },
-          capacity: { status: "insufficient", label: "Hosting Capacity" },
-          pets: { status: "compatible", label: "Pets" },
-          parenting: { status: "insufficient", label: "Parenting Youth" }
-        },
-        flags: [
-          {
-            color: "amber",
-            criteria: "Substance Use",
-            level: "Potential concern",
-            explanation: "Conflicting answers in Marcus's profile prevent accurate substance use compatibility assessment.",
-            source: "Substance Use section — conflicting responses"
-          }
-        ],
-        tooltips: {
-          lgbtq: "Based on: Host Interest — affirming confirmed",
-          dietary: "Based on: Interest as a Guest — no conflicts",
-          substance: "Based on: Substance Use — conflicting answers in profile",
-          mental: "Based on: Host Background — no concerns",
-          cultural: "Based on: Background — partial match",
-          struggles: "Based on: Host Interest — relevant experience",
-          capacity: "Based on: Host Interest — preference unclear from profile",
-          pets: "Based on: Host basic info — no pets",
-          parenting: "Based on: Host Interest — not specified"
-        }
-      },
-      {
-        id: "h9",
-        name: "Sandra & David Kim",
-        initials: "SK",
-        score: 62,
-        explanation: "Sandra and David have relevant hosting experience and an affirming household. Match confidence is reduced due to unresolved questions in Marcus's profile.",
-        criteria: {
-          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
-          dietary: { status: "insufficient", label: "Dietary Needs" },
-          substance: { status: "concern", label: "Substance Use" },
-          mental: { status: "concern", label: "Mental Health" },
           cultural: { status: "compatible", label: "Cultural Background" },
           struggles: { status: "insufficient", label: "Past Struggles" },
           capacity: { status: "compatible", label: "Hosting Capacity" },
@@ -474,44 +417,171 @@ export const matchData = {
         flags: [
           {
             color: "amber",
-            criteria: "Substance Use",
+            criteria: "Dietary Needs",
             level: "Potential concern",
-            explanation: "Ambiguous substance use answers in Marcus's profile reduce match confidence.",
-            source: "Substance Use section — conflicting responses"
-          },
-          {
-            color: "amber",
-            criteria: "Mental Health",
-            level: "Potential concern",
-            explanation: "Mental health compatibility uncertain due to incomplete profile data.",
-            source: "Host Background — mental health section"
+            explanation: "Olivia's dietary requirements were not fully captured in her intake profile.",
+            source: "Interest as a Guest — dietary requirements"
           }
         ],
         tooltips: {
-          lgbtq: "Based on: Host Interest — affirming household confirmed",
-          dietary: "Based on: Interest as a Guest — section incomplete",
-          substance: "Based on: Substance Use — conflicting profile answers",
-          mental: "Based on: Host Background — uncertain due to profile gaps",
-          cultural: "Based on: Background — compatible",
-          struggles: "Based on: Host Interest — data insufficient",
-          capacity: "Based on: Host Interest — full-time available",
+          lgbtq: "Based on: Host Interest — LGBTQ+ affirmation confirmed",
+          dietary: "Based on: Interest as a Guest — dietary section partially completed",
+          substance: "Based on: Substance Use — no conflicts identified",
+          mental: "Based on: Host Background — no concerns noted",
+          cultural: "Based on: Background — compatible cultural environment",
+          struggles: "Based on: Host Interest — data not available",
+          capacity: "Based on: Host Interest — full-time and respite available",
           pets: "Based on: Host basic info — no pets",
           parenting: "Based on: Host Interest — not specified"
         }
       }
-    ],
-    ambiguities: [
+    ]
+  },
+  6: {
+    type: "allRedFlags",
+    guestName: "Marcus Lee",
+    matches: [
       {
-        criteria: "Substance Use",
-        issue: "Conflicting answers",
-        description: "Marcus indicated no alcohol use but also noted concerns about substance use. Please clarify.",
-        section: "Substance Use"
+        id: "h_m1",
+        name: "James & Linda Park",
+        initials: "JP",
+        score: 58,
+        explanation: "James and Linda have strong hosting experience, but their household has a strict no-smoking policy which conflicts with Marcus's profile.",
+        criteria: {
+          lgbtq: { status: "concern", label: "LGBTQ+ Safety" },
+          dietary: { status: "compatible", label: "Dietary Needs" },
+          substance: { status: "incompatible", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "concern", label: "Cultural Background" },
+          struggles: { status: "compatible", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "compatible", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "red",
+            criteria: "Substance Use",
+            level: "Incompatible",
+            explanation: "No-smoking policy conflicts with Marcus's substance use profile.",
+            source: "Substance Use — smoking in home"
+          },
+          {
+            color: "amber",
+            criteria: "LGBTQ+ Safety",
+            level: "Potential concern",
+            explanation: "LGBTQ+ affirmation not fully confirmed.",
+            source: "Host Interest — LGBTQ+ affirmation"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — affirmation not fully confirmed",
+          dietary: "Based on: Interest as a Guest — no dietary conflicts",
+          substance: "Based on: Substance Use — strict no-smoking policy conflicts with Marcus's profile",
+          mental: "Based on: Host Background — no concerns noted",
+          cultural: "Based on: Background — cultural competency not verified",
+          struggles: "Based on: Host Interest — relevant experience confirmed",
+          capacity: "Based on: Host Interest — full-time available",
+          pets: "Based on: Host basic info — no pets",
+          parenting: "Based on: Host Interest — not specified"
+        }
       },
       {
-        criteria: "Hosting Duration",
-        issue: "Unclear response",
-        description: "Marcus's answer about hosting duration was incomplete. Full-time or respite?",
-        section: "Interest as a Guest"
+        id: "h_m2",
+        name: "Sarah & Tom W.",
+        initials: "ST",
+        score: 52,
+        explanation: "Sarah and Tom are experienced hosts. However, dietary accommodations and LGBTQ+ affirmation could not be confirmed.",
+        criteria: {
+          lgbtq: { status: "incompatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "incompatible", label: "Dietary Needs" },
+          substance: { status: "concern", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "insufficient", label: "Cultural Background" },
+          struggles: { status: "compatible", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "concern", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "red",
+            criteria: "LGBTQ+ Safety",
+            level: "Incompatible",
+            explanation: "LGBTQ+ affirmation could not be confirmed. Critical safety criterion.",
+            source: "Host Interest — LGBTQ+ youth"
+          },
+          {
+            color: "red",
+            criteria: "Dietary Needs",
+            level: "Incompatible",
+            explanation: "Dietary requirements conflict with host household.",
+            source: "Interest as a Guest — dietary"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — affirmation not confirmed, critical issue",
+          dietary: "Based on: Interest as a Guest — dietary conflicts confirmed",
+          substance: "Based on: Substance Use — policies not confirmed",
+          mental: "Based on: Host Background — no concerns",
+          cultural: "Based on: Background — insufficient data",
+          struggles: "Based on: Host Interest — relevant experience",
+          capacity: "Based on: Host Interest — available",
+          pets: "Based on: Host basic info — pets present",
+          parenting: "Based on: Host Interest — not specified"
+        }
+      },
+      {
+        id: "h_m3",
+        name: "The Okonkwo Family",
+        initials: "OK",
+        score: 48,
+        explanation: "The Okonkwo family has hosting capacity and community experience. Substance use policies and mental health support remain unverified.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "compatible", label: "Dietary Needs" },
+          substance: { status: "incompatible", label: "Substance Use" },
+          mental: { status: "incompatible", label: "Mental Health" },
+          cultural: { status: "compatible", label: "Cultural Background" },
+          struggles: { status: "concern", label: "Past Struggles" },
+          capacity: { status: "concern", label: "Hosting Capacity" },
+          pets: { status: "compatible", label: "Pets" },
+          parenting: { status: "compatible", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "red",
+            criteria: "Substance Use",
+            level: "Incompatible",
+            explanation: "The Okonkwo family's substance use policies conflict with Marcus's profile requirements.",
+            source: "Substance Use — host household policies"
+          },
+          {
+            color: "red",
+            criteria: "Mental Health",
+            level: "Incompatible",
+            explanation: "Mental health support capability could not be confirmed and may conflict with Marcus's needs.",
+            source: "Host Background — mental health concerns"
+          },
+          {
+            color: "amber",
+            criteria: "Past Struggles",
+            level: "Potential concern",
+            explanation: "Shared experience with similar past struggles could not be verified.",
+            source: "Host Interest — similar experiences"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — LGBTQ+ affirming confirmed",
+          dietary: "Based on: Interest as a Guest — no dietary conflicts",
+          substance: "Based on: Substance Use — policies conflict with requirements",
+          mental: "Based on: Host Background — support capability not confirmed",
+          cultural: "Based on: Background — compatible background",
+          struggles: "Based on: Host Interest — similar struggles not verified",
+          capacity: "Based on: Host Interest — capacity may be limited",
+          pets: "Based on: Host basic info — no pets",
+          parenting: "Based on: Host Interest — willing to host parenting youth"
+        }
       }
     ]
   },
@@ -524,6 +594,300 @@ export const matchData = {
     type: "emptyPool",
     guestName: "Tyler Chen",
     matches: []
+  },
+  11: {
+    type: "normalMatches",
+    guestName: "Noah Thomas",
+    matches: [
+      {
+        id: "g_n1",
+        name: "Alex Rivera",
+        initials: "AR",
+        score: 88,
+        explanation: "Alex's profile aligns well with Noah's household environment. Alex is seeking a full-time placement in a culturally affirming home and has indicated a willingness to participate in weekly check-ins.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "compatible", label: "Dietary Needs" },
+          substance: { status: "compatible", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "compatible", label: "Cultural Background" },
+          struggles: { status: "compatible", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "compatible", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — affirming household confirmed",
+          dietary: "Based on: Interest as a Guest — no dietary restrictions",
+          substance: "Based on: Substance Use — guest agrees to household policies",
+          mental: "Based on: Host Background — supportive environment available",
+          cultural: "Based on: Background — compatible cultural backgrounds",
+          struggles: "Based on: Host Interest — relevant experience confirmed",
+          capacity: "Based on: Host Interest — full-time placement available",
+          pets: "Based on: Host basic info — no pets, no allergies",
+          parenting: "Based on: Host Interest — not applicable"
+        }
+      },
+      {
+        id: "g_n2",
+        name: "Jordan Kim",
+        initials: "JK",
+        score: 76,
+        explanation: "Jordan is seeking a structured placement with experienced hosts. Noah's household and prior hosting background align with Jordan's case plan goals.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "concern", label: "Dietary Needs" },
+          substance: { status: "compatible", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "concern", label: "Cultural Background" },
+          struggles: { status: "compatible", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "compatible", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "amber",
+            criteria: "Dietary Needs",
+            level: "Potential concern",
+            explanation: "Jordan's dietary preferences were not fully captured in their intake profile.",
+            source: "Interest as a Guest — dietary requirements"
+          },
+          {
+            color: "amber",
+            criteria: "Cultural Background",
+            level: "Potential concern",
+            explanation: "Shared cultural background could not be fully verified from available profile data.",
+            source: "Background — cultural experiences"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — affirming environment confirmed",
+          dietary: "Based on: Interest as a Guest — section partially completed",
+          substance: "Based on: Substance Use — guest agrees to household policies",
+          mental: "Based on: Host Background — no concerns",
+          cultural: "Based on: Background — partial match, follow-up recommended",
+          struggles: "Based on: Host Interest — relevant hosting experience",
+          capacity: "Based on: Host Interest — full-time available",
+          pets: "Based on: Host basic info — no pets",
+          parenting: "Based on: Host Interest — not specified"
+        }
+      },
+      {
+        id: "g_n3",
+        name: "Sam Patel",
+        initials: "SP",
+        score: 63,
+        explanation: "Sam has relevant case plan goals that align with Noah's hosting style. Some household compatibility details could not be fully verified from Sam's profile.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "concern", label: "Dietary Needs" },
+          substance: { status: "concern", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "compatible", label: "Cultural Background" },
+          struggles: { status: "insufficient", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "concern", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "amber",
+            criteria: "Dietary Needs",
+            level: "Potential concern",
+            explanation: "Sam's dietary requirements need follow-up confirmation.",
+            source: "Interest as a Guest — dietary requirements"
+          },
+          {
+            color: "amber",
+            criteria: "Substance Use",
+            level: "Potential concern",
+            explanation: "Sam's agreement to household substance use policies was not fully confirmed.",
+            source: "Substance Use — host household policies"
+          },
+          {
+            color: "amber",
+            criteria: "Pets",
+            level: "Potential concern",
+            explanation: "Sam's allergy status with regard to pets should be confirmed.",
+            source: "Host basic info — pets in household"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — affirming household confirmed",
+          dietary: "Based on: Interest as a Guest — incomplete section",
+          substance: "Based on: Substance Use — agreement not confirmed",
+          mental: "Based on: Host Background — no concerns noted",
+          cultural: "Based on: Background — compatible",
+          struggles: "Based on: Host Interest — data not available",
+          capacity: "Based on: Host Interest — placement capacity available",
+          pets: "Based on: Host basic info — pet allergy status unconfirmed",
+          parenting: "Based on: Host Interest — not specified"
+        }
+      }
+    ],
+    declinedPairs: []
+  },
+  12: {
+    type: "normalMatches",
+    guestName: "Isabella Garcia",
+    matches: [
+      {
+        id: "ig_h1",
+        name: "The Nakamura Family",
+        initials: "NK",
+        score: 91,
+        explanation: "The Nakamura family is LGBTQ+-affirming and has hosted youth from diverse backgrounds before. Their household is alcohol-free which aligns with Isabella's substance use preferences.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "compatible", label: "Dietary Needs" },
+          substance: { status: "compatible", label: "Substance Use" },
+          mental: { status: "concern", label: "Mental Health" },
+          cultural: { status: "compatible", label: "Cultural Background" },
+          struggles: { status: "insufficient", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "compatible", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [],
+        tooltips: {
+          lgbtq: "Based on: Host Interest section — comfort with LGBTQ+ youth and gender identity",
+          dietary: "Based on: Interest as a Guest — dietary requirements and allergies",
+          substance: "Based on: Substance Use section — household smoking, alcohol, other substances",
+          mental: "Based on: Host Background section — mental health concerns in household. Some information was provided but warrants follow-up.",
+          cultural: "Based on: Language Proficiency and Background — cultural competency",
+          struggles: "Based on: Host Interest — similar past experiences with housing insecurity",
+          capacity: "Based on: Host Interest — full-time vs respite, number of youth",
+          pets: "Based on: Host basic info — pets in household / Guest allergies",
+          parenting: "Based on: Host Interest — willingness to host parenting youth"
+        }
+      },
+      {
+        id: "ig_h2",
+        name: "Patricia Moore",
+        initials: "PM",
+        score: 74,
+        explanation: "Patricia shares a similar cultural background and is bilingual in English and Spanish, which may provide additional comfort for Isabella. Her household policies align well with the placement requirements.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "concern", label: "Dietary Needs" },
+          substance: { status: "compatible", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "compatible", label: "Cultural Background" },
+          struggles: { status: "compatible", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "concern", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "amber",
+            criteria: "Dietary Needs",
+            level: "Potential concern",
+            explanation: "Patricia's dietary accommodations could not be fully verified from her host profile.",
+            source: "Interest as a Guest — dietary requirements"
+          },
+          {
+            color: "amber",
+            criteria: "Pets",
+            level: "Potential concern",
+            explanation: "Patricia's household situation regarding pets should be confirmed before proceeding.",
+            source: "Host basic info — pets in household"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — LGBTQ+ affirmation confirmed",
+          dietary: "Based on: Interest as a Guest — dietary requirements not fully captured",
+          substance: "Based on: Substance Use — no conflicts identified",
+          mental: "Based on: Host Background — no concerns noted",
+          cultural: "Based on: Language Proficiency — bilingual English/Spanish, compatible background",
+          struggles: "Based on: Host Interest — shared community experience",
+          capacity: "Based on: Host Interest — full-time hosting available",
+          pets: "Based on: Host basic info — pet situation should be confirmed",
+          parenting: "Based on: Host Interest — not specified"
+        }
+      },
+      {
+        id: "ig_h3",
+        name: "Sandra & David Kim",
+        initials: "SK",
+        score: 68,
+        explanation: "Sandra and David have relevant hosting experience and an affirming household. Some lifestyle compatibility details could not be fully verified from the available profile data.",
+        criteria: {
+          lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
+          dietary: { status: "insufficient", label: "Dietary Needs" },
+          substance: { status: "concern", label: "Substance Use" },
+          mental: { status: "compatible", label: "Mental Health" },
+          cultural: { status: "concern", label: "Cultural Background" },
+          struggles: { status: "insufficient", label: "Past Struggles" },
+          capacity: { status: "compatible", label: "Hosting Capacity" },
+          pets: { status: "compatible", label: "Pets" },
+          parenting: { status: "insufficient", label: "Parenting Youth" }
+        },
+        flags: [
+          {
+            color: "amber",
+            criteria: "Substance Use",
+            level: "Potential concern",
+            explanation: "Household substance use policies not fully confirmed.",
+            source: "Substance Use — host household policies"
+          },
+          {
+            color: "amber",
+            criteria: "Cultural Background",
+            level: "Potential concern",
+            explanation: "Shared cultural background or cultural competency could not be fully verified.",
+            source: "Background — cultural experiences"
+          },
+          {
+            color: "gray",
+            criteria: "Dietary Needs",
+            level: "Insufficient data",
+            explanation: "Dietary requirements not captured in profile.",
+            source: "Interest as a Guest — dietary requirements"
+          }
+        ],
+        tooltips: {
+          lgbtq: "Based on: Host Interest — affirming household confirmed",
+          dietary: "Based on: Interest as a Guest — section not completed",
+          substance: "Based on: Substance Use — policies not fully confirmed",
+          mental: "Based on: Host Background — no concerns noted",
+          cultural: "Based on: Background — cultural competency not fully verified",
+          struggles: "Based on: Host Interest — data not available",
+          capacity: "Based on: Host Interest — full-time hosting available",
+          pets: "Based on: Host basic info — no pets",
+          parenting: "Based on: Host Interest — not specified"
+        }
+      }
+    ],
+    declinedPairs: [
+      {
+        name: "Roberto Sanchez",
+        declinedDate: "03/15/2025",
+        reason: "Scheduling conflict",
+        declinedBy: "Host"
+      }
+    ]
+  },
+  13: {
+    type: "insufficientData",
+    guestName: "Jacob Wilson",
+    matches: [],
+    missingSections: [
+      {
+        name: "LGBTQ+ Affirmation Confirmation",
+        reason: "Required for matching with LGBTQ+-identifying guests"
+      },
+      {
+        name: "Substance Use & Household Policies",
+        reason: "Critical for determining compatibility with guest profiles"
+      },
+      {
+        name: "Dietary Accommodation Capacity",
+        reason: "Needed to match with guests with specific dietary requirements"
+      }
+    ]
   }
 };
 

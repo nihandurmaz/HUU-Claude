@@ -25,7 +25,7 @@ function StatusChip({ state }) {
   );
 }
 
-export default function OnboardingEventCard({ eventName, description, scheduleButtonLabel, isLocked, preloaded, onComplete }) {
+export default function OnboardingEventCard({ eventName, description, scheduleButtonLabel, isLocked, preloaded, onSendInvitation, onComplete }) {
   // preloaded: { state, date, time, format, completedDate, completedTime }
   const [eventState, setEventState] = useState(preloaded?.state || 'notScheduled');
   const [scheduledDate, setScheduledDate] = useState(preloaded?.date || '');
@@ -63,6 +63,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
     setEventState('scheduled');
     setShowScheduleForm(false);
     setSchedError('');
+    if (onSendInvitation) onSendInvitation();
   };
 
   const handleMarkComplete = () => {
