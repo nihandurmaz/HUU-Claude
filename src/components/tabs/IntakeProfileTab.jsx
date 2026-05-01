@@ -90,7 +90,9 @@ export default function IntakeProfileTab({ applicant }) {
     goToDashboard();
   };
 
-  const pendingBadge = state === 'resubmitted' ? 'Resubmitted' : 'Needs Attention';
+  const pendingBadge = state === 'resubmitted'
+    ? <><RotateCcw size={11} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 3 }} />Resubmitted</>
+    : 'Needs Attention';
   const pendingBadgeType = state === 'resubmitted' ? 'purple' : 'amber';
 
   const ActionButtons = () => (
@@ -99,7 +101,7 @@ export default function IntakeProfileTab({ applicant }) {
         onClick={() => setShowApproveModal(true)}
         style={{ backgroundColor: '#242424', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
       >
-        Approve Guest
+        Approve {applicant.type}
       </button>
       <button
         onClick={() => setShowInfoModal(true)}
@@ -186,9 +188,8 @@ export default function IntakeProfileTab({ applicant }) {
 
           <AccordionSection
             title="Substance Use"
-            badge={state === 'resubmitted' ? 'Resubmitted' : 'Needs Attention'}
-            badgeType={state === 'resubmitted' ? 'purple' : 'amber'}
-            icon={state === 'resubmitted' ? <RotateCcw size={14} /> : null}
+            badge={pendingBadge}
+            badgeType={pendingBadgeType}
           >
             <QA q="Do you smoke cigarettes?" a="Yes" />
             <QA q="Smoke inside home?" a="Yes" />
