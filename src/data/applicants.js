@@ -1,0 +1,284 @@
+export const applicants = [
+  {
+    id: 1,
+    name: "Sophia Johnson",
+    initials: "SJ",
+    type: "Guest",
+    stage: "Intake Profile",
+    status: "In Review",
+    coordinator: "John Dosey",
+    updated: "8/23/2024",
+    avatarColor: "#008BF5",
+    intakeState: "inReview",
+    onboardingState: "locked",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: true,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 2,
+    name: "Jameson Jack",
+    initials: "JJ",
+    type: "Guest",
+    stage: "Matchmaking",
+    status: "Matching in Progress",
+    coordinator: "John Dosey",
+    updated: "8/22/2024",
+    avatarColor: "#008BF5",
+    intakeState: "approved",
+    onboardingState: "completed",
+    matchmakingState: "noMatches",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: false,
+      relationship: true
+    }
+  },
+  {
+    id: 3,
+    name: "Ava Williams",
+    initials: "AW",
+    type: "Guest",
+    stage: "Onboarding",
+    status: "Intake profile started",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#008BF5",
+    intakeState: "infoRequested",
+    onboardingState: "locked",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: true,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 4,
+    name: "Ethan Brown",
+    initials: "EB",
+    type: "Guest",
+    stage: "Onboarding",
+    status: "Intake profile approved",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#008BF5",
+    intakeState: "resubmitted",
+    onboardingState: "inProgress",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: true,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 5,
+    name: "Olivia Martinez",
+    initials: "OM",
+    type: "Guest",
+    stage: "Onboarding",
+    status: "Training session completed, eligible for matching",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#008BF5",
+    intakeState: "approved",
+    onboardingState: "completed",
+    matchmakingState: "insufficientData",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: false,
+      relationship: true
+    }
+  },
+  {
+    id: 6,
+    name: "Marcus Lee",
+    initials: "ML",
+    type: "Guest",
+    stage: "Onboarding",
+    status: "Intake profile started",
+    coordinator: "Unassigned",
+    updated: "8/14/2024",
+    avatarColor: "#008BF5",
+    intakeState: "resubmitted",
+    onboardingState: "locked",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: true,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 7,
+    name: "Jordan Rivera",
+    initials: "JR",
+    type: "Guest",
+    stage: "Onboarding",
+    status: "Intake profile approved",
+    coordinator: "Unassigned",
+    updated: "8/13/2024",
+    avatarColor: "#008BF5",
+    intakeState: "approved",
+    onboardingState: "completed",
+    matchmakingState: "noSafeMatches",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: false,
+      relationship: true
+    }
+  },
+  {
+    id: 8,
+    name: "Tyler Chen",
+    initials: "TC",
+    type: "Guest",
+    stage: "Intake Profile",
+    status: "In Review",
+    coordinator: "Unassigned",
+    updated: "8/12/2024",
+    avatarColor: "#008BF5",
+    intakeState: "inReview",
+    onboardingState: "locked",
+    matchmakingState: "emptyPool",
+    sidebarLocks: {
+      intake: false,
+      onboarding: true,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 9,
+    name: "Liam Anderson",
+    initials: "LA",
+    type: "Host",
+    stage: "Onboarding",
+    status: "Training session completed",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#7C3AED",
+    intakeState: "approved",
+    onboardingState: "inProgress",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 10,
+    name: "Mia Taylor",
+    initials: "MT",
+    type: "Host",
+    stage: "Onboarding",
+    status: "Home inspection completed",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#7C3AED",
+    intakeState: "approved",
+    onboardingState: "inProgress",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 11,
+    name: "Noah Thomas",
+    initials: "NT",
+    type: "Host",
+    stage: "Onboarding",
+    status: "Initial application approved",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#7C3AED",
+    intakeState: "approved",
+    onboardingState: "inProgress",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 12,
+    name: "Isabella Garcia",
+    initials: "IG",
+    type: "Host",
+    stage: "Account creation",
+    status: "Account created",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#7C3AED",
+    intakeState: "inReview",
+    onboardingState: "locked",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: true,
+      matchmaking: true,
+      relationship: true
+    }
+  },
+  {
+    id: 13,
+    name: "Jacob Wilson",
+    initials: "JW",
+    type: "Host",
+    stage: "Onboarding",
+    status: "Coordinator interview completed",
+    coordinator: "Unassigned",
+    updated: "8/15/2024",
+    avatarColor: "#7C3AED",
+    intakeState: "approved",
+    onboardingState: "inProgress",
+    matchmakingState: "locked",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: true,
+      relationship: true
+    }
+  }
+];
+
+export const statusBadgeColors = {
+  "In Review": { bg: "#FEF3C7", text: "#92400E" },
+  "Matching in Progress": { bg: "#E7F1FD", text: "#008BF5" },
+  "Application Started": { bg: "#E7F1FD", text: "#008BF5" },
+  "Intake profile started": { bg: "#FEF3C7", text: "#92400E" },
+  "Intake profile approved": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Training session completed": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Training session completed, eligible for matching": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Home inspection completed": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Initial application approved": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Coordinator interview completed": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Account created": { bg: "#F3F4F6", text: "#6B7280" },
+  "Resubmitted": { bg: "#F3E8FF", text: "#7C3AED" },
+  "Information Requested": { bg: "transparent", text: "#D69E2E" },
+  "Locked": { bg: "#F3F4F6", text: "#9CA3AF" },
+  "Scheduled": { bg: "#FEF3C7", text: "#92400E" },
+  "Overdue": { bg: "#FEE2E2", text: "#DC2626" },
+  "Completed": { bg: "#F0FDF4", text: "#1A7F37" },
+  "Denied": { bg: "#FEE2E2", text: "#DC2626" },
+  "Matched": { bg: "#F0FDF4", text: "#1A7F37" }
+};
