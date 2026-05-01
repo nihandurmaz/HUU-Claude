@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Info, CheckCircle } from 'lucide-react';
 import { applicants } from '../../data/applicants';
 import { matchData } from '../../data/matches';
@@ -6,8 +6,18 @@ import { useApp } from '../../context/AppContext';
 import MatchCard from '../MatchCard';
 import Modal from '../Modal';
 
-function useGuestList() {
-  return applicants.filter(a => a.type === 'Guest' && !a.sidebarLocks.matchmaking);
+const AI_LOADING_STEPS = [
+  "Reading intake profile",
+  "Scanning 5 available hosts",
+  "Evaluating LGBTQ+ Safety compatibility",
+  "Evaluating Substance Use policies",
+  "Evaluating Cultural Background",
+  "Calculating compatibility scores",
+  "Ranking matches..."
+];
+
+function useApplicantList() {
+  return applicants.filter(a => !a.sidebarLocks.matchmaking);
 }
 
 function MatchConfirmedState({ guestName, hostName, onRelationship }) {
@@ -27,10 +37,69 @@ function MatchConfirmedState({ guestName, hostName, onRelationship }) {
   );
 }
 
+function AIPreState({ onGenerate, guestName }) {
+  return (
+    <div style={{ padding: '24px 0' }}>
+      <div style={{ backgroundColor: '#E7F1FD', border: '1px solid #008BF5', borderRadius: 6, padding: '14px 16px', marginBottom: 24 }}>
+        <p style={{ margin: 0, fontSize: 13, color: '#242424', lineHeight: 1.6 }}>
+          The AI will analyze {guestName}'s intake profile across 9 compatibility criteria and rank available hosts by compatibility score.
+        </p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <button
+          onClick={onGenerate}
+          style={{
+            backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6,
+            padding: '14px 32px', fontSize: 16, fontWeight: 700, cursor: 'pointer',
+            display: 'inline-flex', alignItems: 'center', gap: 10
+          }}
+        >
+          🤖 Generate AI Matches
+        </button>
+        <p style={{ margin: '12px 0 0', fontSize: 12, color: '#7C7C7C' }}>
+          AI will evaluate: LGBTQ+ Safety · Dietary Needs · Substance Use · Mental Health · Cultural Background · Past Struggles · Hosting Capacity · Pets · Parenting Youth
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function AILoadingState({ visibleStepCount }) {
+  return (
+    <div style={{ padding: '24px 0' }}>
+      <div style={{
+        border: '1px solid #E5E7EB', borderRadius: 6, padding: 24,
+        animation: 'pulse 2s ease infinite'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+          <div style={{ width: 24, height: 24, border: '3px solid #E5E7EB', borderTopColor: '#008BF5', borderRadius: '50%', animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />
+          <span style={{ fontWeight: 700, fontSize: 15, color: '#242424' }}>AI is analyzing compatibility...</span>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {AI_LOADING_STEPS.map((step, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                opacity: i < visibleStepCount ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+                fontSize: 13, color: '#242424'
+              }}
+            >
+              <span style={{ color: '#1A7F37', fontWeight: 700, flexShrink: 0 }}>✓</span>
+              {step}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MatchmakingTab({ applicant }) {
   const { setActiveTab, setShowHostGallery, confirmMatch, addNote, showToast, matchedPairs, getSidebarLocks } = useApp();
 
-  const guestList = useGuestList();
+  const applicantList = useApplicantList();
   const [selectedGuestId, setSelectedGuestId] = useState(applicant.id);
   const selectedGuest = applicants.find(a => a.id === selectedGuestId) || applicant;
   const data = matchData[selectedGuestId];
@@ -48,6 +117,9 @@ export default function MatchmakingTab({ applicant }) {
 
   const alreadyMatched = matchedPairs.find(p => p.guestId === selectedGuestId);
 
+  const [aiState, setAiState] = useState('idle'); // 'idle' | 'loading' | 'complete'
+  const [visibleStepCount, setVisibleStepCount] = useState(0);
+
   const [visibleCards, setVisibleCards] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [pendingMatch, setPendingMatch] = useState(null);
@@ -55,13 +127,27 @@ export default function MatchmakingTab({ applicant }) {
   const [overrideNote, setOverrideNote] = useState('');
   const [skippedOnly, setSkippedOnly] = useState(false);
   const [showSingleSkipped, setShowSingleSkipped] = useState(false);
-  const [singleRestored, setSingleRestored] = useState(false);
   const [expandedPool, setExpandedPool] = useState(false);
   const [noSafeNoteText, setNoSafeNoteText] = useState('');
   const [showDeclinedDetails, setShowDeclinedDetails] = useState(false);
   const [declinedHidden, setDeclinedHidden] = useState(false);
   const [infoRequestedState, setInfoRequestedState] = useState(false);
-  const [ambigClarified, setAmbigClarified] = useState(false);
+
+  // Drive the loading animation
+  useEffect(() => {
+    if (aiState !== 'loading') return;
+    if (visibleStepCount >= AI_LOADING_STEPS.length) {
+      const t = setTimeout(() => setAiState('complete'), 500);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => setVisibleStepCount(s => s + 1), 400);
+    return () => clearTimeout(t);
+  }, [aiState, visibleStepCount]);
+
+  const handleGenerateMatches = () => {
+    setAiState('loading');
+    setVisibleStepCount(0);
+  };
 
   const getVisibleIds = () => {
     if (!data) return [];
@@ -114,16 +200,18 @@ export default function MatchmakingTab({ applicant }) {
     setVisibleCards(null);
     setSkippedOnly(false);
     setShowSingleSkipped(false);
-    setSingleRestored(false);
     setExpandedPool(false);
     setInfoRequestedState(false);
-    setAmbigClarified(false);
+    setAiState('idle');
+    setVisibleStepCount(0);
+    setDeclinedHidden(false);
+    setShowDeclinedDetails(false);
   };
 
   if (alreadyMatched) {
     return (
       <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
-        <GuestSelector guestList={guestList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
+        <ApplicantSelector applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
         <MatchConfirmedState
           guestName={alreadyMatched.guestName}
           hostName={alreadyMatched.hostName}
@@ -136,7 +224,7 @@ export default function MatchmakingTab({ applicant }) {
   if (!data) {
     return (
       <div style={{ flex: 1, padding: 24 }}>
-        <GuestSelector guestList={guestList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
+        <ApplicantSelector applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
         <p style={{ color: '#7C7C7C', fontSize: 14 }}>No match data available for this applicant.</p>
       </div>
     );
@@ -147,22 +235,33 @@ export default function MatchmakingTab({ applicant }) {
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
-      <GuestSelector guestList={guestList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
+      <ApplicantSelector applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
 
-      {/* AI banner */}
-      <div style={{ backgroundColor: '#E7F1FD', borderLeft: '4px solid #008BF5', borderRadius: 6, padding: '10px 14px', marginBottom: 8, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-        <Info size={16} style={{ color: '#008BF5', flexShrink: 0, marginTop: 1 }} />
-        <span style={{ fontSize: 13, color: '#242424' }}>These suggestions are generated by AI to support your decision. You make the final call.</span>
-      </div>
-      <p style={{ margin: '0 0 20px', fontSize: 12, color: '#7C7C7C' }}>
-        Match criteria are drawn directly from each applicant's intake profile. Incomplete sections may limit results.
-      </p>
+      {/* STATE: normalMatches — idle (Generate AI Matches) */}
+      {data.type === 'normalMatches' && aiState === 'idle' && (
+        <AIPreState onGenerate={handleGenerateMatches} guestName={selectedGuest.name} />
+      )}
 
-      {/* STATE: normalMatches */}
-      {data.type === 'normalMatches' && !skippedOnly && (
+      {/* STATE: normalMatches — loading */}
+      {data.type === 'normalMatches' && aiState === 'loading' && (
+        <AILoadingState visibleStepCount={visibleStepCount} />
+      )}
+
+      {/* STATE: normalMatches — complete, show cards */}
+      {data.type === 'normalMatches' && aiState === 'complete' && !skippedOnly && (
         <>
-          {visibleMatches.map(match => (
-            <MatchCard key={match.id} match={match} onProceed={handleProceed} onSkip={handleSkip} />
+          {/* AI disclaimer banner */}
+          <div style={{ backgroundColor: '#E7F1FD', borderLeft: '4px solid #008BF5', borderRadius: 6, padding: '10px 14px', marginBottom: 4, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <Info size={16} style={{ color: '#008BF5', flexShrink: 0, marginTop: 1 }} />
+            <span style={{ fontSize: 13, color: '#242424' }}>These suggestions are generated by AI to support your decision. You make the final call.</span>
+          </div>
+          <p style={{ margin: '0 0 16px', fontSize: 12, color: '#7C7C7C' }}>
+            Match criteria are drawn directly from each applicant's intake profile. Incomplete sections may limit results.
+          </p>
+          {visibleMatches.map((match, i) => (
+            <div key={match.id} style={{ animation: `fadeIn 0.4s ease ${i * 0.3}s both` }}>
+              <MatchCard match={match} onProceed={handleProceed} onSkip={handleSkip} />
+            </div>
           ))}
           {/* Declined pair */}
           {!declinedHidden && data.declinedPairs?.map(dp => (
@@ -171,12 +270,12 @@ export default function MatchmakingTab({ applicant }) {
                 <span style={{ fontSize: 14 }}>⊘ {dp.name} — Previously declined</span>
                 <button onClick={() => setDeclinedHidden(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#9CA3AF' }}>Remove from view</button>
               </div>
-              <p style={{ margin: '4px 0 6px', fontSize: 12 }}>This match was suggested and declined by the host on {dp.declinedDate}.</p>
+              <p style={{ margin: '4px 0 6px', fontSize: 12 }}>Declined by host on {dp.declinedDate}.</p>
               <button
                 onClick={() => setShowDeclinedDetails(e => !e)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 12 }}
               >
-                View Details
+                {showDeclinedDetails ? 'Hide Details' : 'View Details'}
               </button>
               {showDeclinedDetails && (
                 <div style={{ marginTop: 8, fontSize: 12, color: '#7C7C7C', lineHeight: 1.8 }}>
@@ -197,18 +296,31 @@ export default function MatchmakingTab({ applicant }) {
       )}
 
       {/* Skipped all in normal */}
-      {data.type === 'normalMatches' && skippedOnly && (
+      {data.type === 'normalMatches' && aiState === 'complete' && skippedOnly && (
         <div style={{ textAlign: 'center', padding: 32, color: '#7C7C7C' }}>
           <p style={{ fontSize: 14, marginBottom: 12 }}>You have reviewed all suggested matches.</p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
               View All Hosts Manually
             </button>
-            <button onClick={() => setVisibleCards(null)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={() => { setVisibleCards(null); setSkippedOnly(false); }} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
               Return to Dashboard
             </button>
           </div>
         </div>
+      )}
+
+      {/* AI banner for non-normalMatches states */}
+      {data.type !== 'normalMatches' && (
+        <>
+          <div style={{ backgroundColor: '#E7F1FD', borderLeft: '4px solid #008BF5', borderRadius: 6, padding: '10px 14px', marginBottom: 4, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <Info size={16} style={{ color: '#008BF5', flexShrink: 0, marginTop: 1 }} />
+            <span style={{ fontSize: 13, color: '#242424' }}>These suggestions are generated by AI to support your decision. You make the final call.</span>
+          </div>
+          <p style={{ margin: '0 0 16px', fontSize: 12, color: '#7C7C7C' }}>
+            Match criteria are drawn directly from each applicant's intake profile. Incomplete sections may limit results.
+          </p>
+        </>
       )}
 
       {/* STATE: noMatches */}
@@ -286,7 +398,7 @@ export default function MatchmakingTab({ applicant }) {
           <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424' }}>Insufficient profile data to generate matches</h4>
           <p style={{ margin: '0 0 16px', fontSize: 14, color: '#7C7C7C' }}>{selectedGuest.name}'s profile is missing key information required for match generation.</p>
           <div style={{ textAlign: 'left', display: 'inline-block', marginBottom: 20 }}>
-            {data.missingSections.map((sec, i) => (
+            {data.missingSections?.map((sec, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 8, fontSize: 13 }}>
                 <span style={{ color: '#D69E2E' }}>⚠</span>
                 <span style={{ color: '#242424' }}><strong>{sec.name}</strong> — {sec.reason}</span>
@@ -311,49 +423,12 @@ export default function MatchmakingTab({ applicant }) {
         </div>
       )}
 
-      {/* STATE: ambiguousData */}
-      {data.type === 'ambiguousData' && (
-        <>
-          <div style={{ backgroundColor: '#FEF9C3', color: '#92400E', borderRadius: 6, padding: '10px 14px', marginBottom: 12, fontSize: 13, fontWeight: 600 }}>
-            ⚠ Some profile answers need clarification before accurate matches can be generated.
-          </div>
-          <div style={{ backgroundColor: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 6, padding: 14, marginBottom: 16 }}>
-            <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 600, color: '#242424' }}>The following answers appear inconsistent:</p>
-            {data.ambiguities.map((amb, i) => (
-              <div key={i} style={{ marginBottom: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span style={{ color: '#D69E2E' }}>⚠</span>
-                  <strong style={{ fontSize: 13, color: '#242424' }}>{amb.criteria}</strong>
-                  <span style={{ fontSize: 12, color: '#7C7C7C' }}>— {amb.issue}</span>
-                </div>
-                <p style={{ margin: '0 0 4px 20px', fontSize: 13, color: '#7C7C7C' }}>{amb.description}</p>
-                <button onClick={() => showToast(`Clarification request sent for ${amb.criteria}`, 'info')} style={{ marginLeft: 20, background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 12, fontWeight: 600, padding: 0 }}>
-                  Request Clarification
-                </button>
-              </div>
-            ))}
-          </div>
-          <p style={{ margin: '0 0 12px', fontSize: 13, color: '#7C7C7C', fontStyle: 'italic' }}>
-            Preliminary matches shown. Scores may change once clarifications are received.
-          </p>
-          {visibleMatches.map(match => (
-            <MatchCard key={match.id} match={match} onProceed={handleProceed} onSkip={handleSkip} />
-          ))}
-          <button
-            onClick={() => showToast('Clarification request sent for all sections', 'info')}
-            style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginTop: 4 }}
-          >
-            Request All Clarifications
-          </button>
-        </>
-      )}
-
       {/* STATE: noSafeMatches */}
       {data.type === 'noSafeMatches' && (
         <div>
           <div style={{ textAlign: 'center', padding: '24px 0 12px' }}>
             <div style={{ fontSize: 48, color: '#DC2626', marginBottom: 12 }}>🛡✗</div>
-            <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424' }}>No safe matches available</h4>
+            <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424', fontSize: 16 }}>No safe matches available</h4>
           </div>
           <div style={{ backgroundColor: '#FEE2E2', color: '#DC2626', borderRadius: 6, padding: '10px 14px', marginBottom: 12, fontSize: 13, fontWeight: 600 }}>
             {selectedGuest.name}'s profile requires an LGBTQ+-affirming host. No verified affirming hosts are currently available.
@@ -378,7 +453,7 @@ export default function MatchmakingTab({ applicant }) {
             </div>
           )}
           <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#242424', marginBottom: 6 }}>Add a follow-up note:</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#242424', marginBottom: 6 }}>Add a follow-up note for this case:</p>
             <textarea
               value={noSafeNoteText}
               onChange={e => setNoSafeNoteText(e.target.value)}
@@ -480,7 +555,7 @@ export default function MatchmakingTab({ applicant }) {
   );
 }
 
-function GuestSelector({ guestList, selectedGuestId, onChange }) {
+function ApplicantSelector({ applicantList, selectedGuestId, onChange }) {
   return (
     <div style={{ marginBottom: 16 }}>
       <label style={{ fontSize: 13, color: '#7C7C7C', marginRight: 8, fontWeight: 500 }}>Viewing matches for:</label>
@@ -489,8 +564,8 @@ function GuestSelector({ guestList, selectedGuestId, onChange }) {
         onChange={e => onChange(e.target.value)}
         style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '6px 12px', fontSize: 13, color: '#242424', backgroundColor: '#fff' }}
       >
-        {guestList.map(g => (
-          <option key={g.id} value={g.id}>{g.name}</option>
+        {applicantList.map(g => (
+          <option key={g.id} value={g.id}>{g.name} ({g.type})</option>
         ))}
       </select>
     </div>
