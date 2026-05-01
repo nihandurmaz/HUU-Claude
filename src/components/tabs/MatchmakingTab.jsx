@@ -97,7 +97,7 @@ function AILoadingState({ visibleStepCount }) {
 }
 
 export default function MatchmakingTab({ applicant }) {
-  const { setActiveTab, setShowHostGallery, confirmMatch, addNote, showToast, matchedPairs, getSidebarLocks } = useApp();
+  const { setActiveTab, setShowHostGallery, confirmMatch, addNote, showToast, matchedPairs, getSidebarLocks, goToDashboard } = useApp();
 
   const applicantList = useApplicantList();
   const [selectedGuestId, setSelectedGuestId] = useState(applicant.id);
@@ -384,7 +384,7 @@ export default function MatchmakingTab({ applicant }) {
             <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
               View All Hosts Manually
             </button>
-            <button onClick={() => setActiveTab('intake')} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={goToDashboard} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
               Return to Dashboard
             </button>
           </div>
@@ -443,7 +443,7 @@ export default function MatchmakingTab({ applicant }) {
             <button onClick={() => setExpandedPool(e => !e)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
               Expand Host Pool
             </button>
-            <button onClick={() => setActiveTab('intake')} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={goToDashboard} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
               Return to Dashboard
             </button>
           </div>
