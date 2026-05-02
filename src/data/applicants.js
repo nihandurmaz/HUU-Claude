@@ -1,6 +1,28 @@
 export const applicants = [
   {
+    id: 12,
+    demoOrder: 0,
+    name: "Isabella Garcia",
+    initials: "IG",
+    type: "Guest",
+    stage: "Onboarding",
+    status: "Training session completed, eligible for matching",
+    coordinator: "Rachel Smith",
+    updated: "8/15/2025",
+    avatarColor: "#008BF5",
+    intakeState: "resubmitted",
+    onboardingState: "completed",
+    matchmakingState: "normalMatches",
+    sidebarLocks: {
+      intake: false,
+      onboarding: false,
+      matchmaking: false,
+      relationship: true
+    }
+  },
+  {
     id: 1,
+    demoOrder: 1,
     name: "Sophia Johnson",
     initials: "SJ",
     type: "Guest",
@@ -21,6 +43,7 @@ export const applicants = [
   },
   {
     id: 2,
+    demoOrder: 2,
     name: "Jameson Jack",
     initials: "JJ",
     type: "Guest",
@@ -41,12 +64,13 @@ export const applicants = [
   },
   {
     id: 3,
+    demoOrder: 3,
     name: "Ava Williams",
     initials: "AW",
     type: "Guest",
     stage: "Onboarding",
     status: "Intake profile started",
-    coordinator: "Unassigned",
+    coordinator: "Rachel Smith",
     updated: "8/15/2025",
     avatarColor: "#008BF5",
     intakeState: "infoRequested",
@@ -61,12 +85,13 @@ export const applicants = [
   },
   {
     id: 4,
+    demoOrder: 4,
     name: "Ethan Brown",
     initials: "EB",
     type: "Guest",
     stage: "Onboarding",
     status: "Intake profile approved",
-    coordinator: "Unassigned",
+    coordinator: "Rachel Smith",
     updated: "8/15/2025",
     avatarColor: "#008BF5",
     intakeState: "resubmitted",
@@ -81,12 +106,13 @@ export const applicants = [
   },
   {
     id: 5,
+    demoOrder: 5,
     name: "Olivia Martinez",
     initials: "OM",
     type: "Guest",
     stage: "Onboarding",
     status: "Training session completed, eligible for matching",
-    coordinator: "Unassigned",
+    coordinator: "Rachel Smith",
     updated: "8/15/2025",
     avatarColor: "#008BF5",
     intakeState: "approved",
@@ -101,12 +127,13 @@ export const applicants = [
   },
   {
     id: 6,
+    demoOrder: 6,
     name: "Marcus Lee",
     initials: "ML",
     type: "Guest",
     stage: "Matchmaking",
     status: "Training session completed, eligible for matching",
-    coordinator: "Unassigned",
+    coordinator: "Rachel Smith",
     updated: "8/14/2025",
     avatarColor: "#008BF5",
     intakeState: "approved",
@@ -121,12 +148,13 @@ export const applicants = [
   },
   {
     id: 7,
+    demoOrder: 7,
     name: "Jordan Rivera",
     initials: "JR",
     type: "Guest",
     stage: "Matchmaking",
     status: "Training session completed, eligible for matching",
-    coordinator: "Unassigned",
+    coordinator: "Rachel Smith",
     updated: "8/13/2025",
     avatarColor: "#008BF5",
     intakeState: "approved",
@@ -141,12 +169,13 @@ export const applicants = [
   },
   {
     id: 8,
+    demoOrder: 8,
     name: "Tyler Chen",
     initials: "TC",
     type: "Guest",
     stage: "Onboarding",
     status: "Intake profile approved",
-    coordinator: "Unassigned",
+    coordinator: "John Dosey",
     updated: "8/12/2025",
     avatarColor: "#008BF5",
     intakeState: "approved",
@@ -161,12 +190,13 @@ export const applicants = [
   },
   {
     id: 9,
+    demoOrder: 9,
     name: "Liam Anderson",
     initials: "LA",
     type: "Host",
     stage: "Onboarding",
     status: "Training session completed",
-    coordinator: "Unassigned",
+    coordinator: "John Dosey",
     updated: "8/15/2025",
     avatarColor: "#7C3AED",
     intakeState: "approved",
@@ -181,12 +211,13 @@ export const applicants = [
   },
   {
     id: 10,
+    demoOrder: 10,
     name: "Mia Taylor",
     initials: "MT",
     type: "Host",
     stage: "Onboarding",
     status: "Home inspection completed",
-    coordinator: "Unassigned",
+    coordinator: "John Dosey",
     updated: "8/15/2025",
     avatarColor: "#7C3AED",
     intakeState: "approved",
@@ -201,12 +232,13 @@ export const applicants = [
   },
   {
     id: 11,
+    demoOrder: 11,
     name: "Noah Thomas",
     initials: "NT",
     type: "Host",
     stage: "Matchmaking",
     status: "Initial application approved",
-    coordinator: "Unassigned",
+    coordinator: "John Dosey",
     updated: "8/15/2025",
     avatarColor: "#7C3AED",
     intakeState: "approved",
@@ -220,33 +252,14 @@ export const applicants = [
     }
   },
   {
-    id: 12,
-    name: "Isabella Garcia",
-    initials: "IG",
-    type: "Guest",
-    stage: "Onboarding",
-    status: "Training session completed, eligible for matching",
-    coordinator: "Unassigned",
-    updated: "8/15/2025",
-    avatarColor: "#008BF5",
-    intakeState: "resubmitted",
-    onboardingState: "inProgress",
-    matchmakingState: "normalMatches",
-    sidebarLocks: {
-      intake: false,
-      onboarding: false,
-      matchmaking: false,
-      relationship: true
-    }
-  },
-  {
     id: 13,
+    demoOrder: 12,
     name: "Jacob Wilson",
     initials: "JW",
     type: "Host",
     stage: "Matchmaking",
     status: "Coordinator interview completed",
-    coordinator: "Unassigned",
+    coordinator: "Rachel Smith",
     updated: "8/15/2025",
     avatarColor: "#7C3AED",
     intakeState: "approved",
@@ -260,6 +273,13 @@ export const applicants = [
     }
   }
 ];
+
+export const stagePillColors = {
+  "Intake Profile":          { bg: "#FEF3C7", text: "#92400E" },
+  "Onboarding":              { bg: "#F0FDF4", text: "#1A7F37" },
+  "Matchmaking":             { bg: "#E7F1FD", text: "#008BF5" },
+  "Relationship Management": { bg: "#F3E8FF", text: "#7C3AED" }
+};
 
 export const statusBadgeColors = {
   "In Review": { bg: "#FEF3C7", text: "#92400E" },

@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
 import { FileText, MoreVertical, ChevronUp, ChevronDown, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
-import { applicants } from '../data/applicants';
+import { applicants, stagePillColors } from '../data/applicants';
 import { useApp } from '../context/AppContext';
 import Avatar from './Avatar';
-import StatusBadge from './StatusBadge';
 
 const PAGE_SIZE = 10;
 
@@ -18,12 +17,30 @@ function TypeBadge({ type }) {
   );
 }
 
+function StagePill({ status, stage }) {
+  const colors = stagePillColors[stage] || { bg: '#F3F4F6', text: '#6B7280' };
+  return (
+    <span style={{
+      backgroundColor: colors.bg,
+      color: colors.text,
+      padding: '4px 12px',
+      borderRadius: 999,
+      fontSize: 13,
+      fontWeight: 500,
+      whiteSpace: 'nowrap',
+      display: 'inline-block'
+    }}>
+      {status}
+    </span>
+  );
+}
+
 export default function Dashboard() {
   const { selectApplicant, showToast, intakeStates } = useApp();
   const [activeFilter, setActiveFilter] = useState('All');
   const [search, setSearch] = useState('');
-  const [sortCol, setSortCol] = useState('updated');
-  const [sortDir, setSortDir] = useState('desc');
+  const [sortCol, setSortCol] = useState('demoOrder');
+  const [sortDir, setSortDir] = useState('asc');
   const [page, setPage] = useState(1);
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -50,6 +67,9 @@ export default function Dashboard() {
       if (sortCol === 'updated') {
         av = new Date(av);
         bv = new Date(bv);
+      } else if (sortCol === 'demoOrder') {
+        av = Number(av);
+        bv = Number(bv);
       } else {
         av = String(av).toLowerCase();
         bv = String(bv).toLowerCase();
@@ -74,7 +94,7 @@ export default function Dashboard() {
   const ColHeader = ({ col, label }) => (
     <th
       onClick={() => handleSort(col)}
-      style={{ padding: '10px 12px', textAlign: 'left', fontSize: 12, fontWeight: 600, color: '#7C7C7C', cursor: 'pointer', whiteSpace: 'nowrap', userSelect: 'none', borderBottom: '1px solid #E5E7EB' }}
+      style={{ padding: '16px 16px', textAlign: 'left', fontSize: 12, fontWeight: 600, color: '#6B7280', cursor: 'pointer', whiteSpace: 'nowrap', userSelect: 'none', borderBottom: '1px solid #E5E7EB', letterSpacing: '0.5px', textTransform: 'uppercase' }}
     >
       <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         {label} <SortIcon col={col} />
@@ -134,7 +154,7 @@ export default function Dashboard() {
         </div>
 
         {/* Table */}
-        <div style={{ overflowX: 'auto' }}>
+        <div style={{ overflowX: 'auto', padding: '0 24px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ backgroundColor: '#FAFAFA' }}>
@@ -144,34 +164,36 @@ export default function Dashboard() {
                 <ColHeader col="status" label="STATUS" />
                 <ColHeader col="coordinator" label="COORDINATOR" />
                 <ColHeader col="updated" label="UPDATED" />
-                <th style={{ padding: '10px 12px', borderBottom: '1px solid #E5E7EB' }}></th>
+                <th style={{ padding: '16px 16px', borderBottom: '1px solid #E5E7EB' }}></th>
               </tr>
             </thead>
             <tbody>
               {paginated.map(applicant => (
                 <tr
                   key={applicant.id}
-                  style={{ borderBottom: '1px solid #E5E7EB' }}
+                  style={{ borderBottom: '1px solid #E5E7EB', minHeight: 56 }}
                   onMouseEnter={e => e.currentTarget.style.backgroundColor = '#F9FAFB'}
                   onMouseLeave={e => e.currentTarget.style.backgroundColor = ''}
                 >
-                  <td style={{ padding: '12px 12px' }}>
+                  <td style={{ padding: '16px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <Avatar initials={applicant.initials} color={applicant.avatarColor} size={32} />
                       <button
                         onClick={() => selectApplicant(applicant.id)}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#242424', fontWeight: 500, fontSize: 14, padding: 0 }}
+                        onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+                        onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#242424', fontWeight: 500, fontSize: 14, padding: 0, textDecoration: 'none' }}
                       >
                         {applicant.name}
                       </button>
                     </div>
                   </td>
-                  <td style={{ padding: '12px 12px' }}><TypeBadge type={applicant.type} /></td>
-                  <td style={{ padding: '12px 12px', fontSize: 14, color: '#242424' }}>{applicant.stage}</td>
-                  <td style={{ padding: '12px 12px' }}><StatusBadge status={applicant.status} /></td>
-                  <td style={{ padding: '12px 12px', fontSize: 14, color: '#242424' }}>{applicant.coordinator}</td>
-                  <td style={{ padding: '12px 12px', fontSize: 14, color: '#7C7C7C' }}>{applicant.updated}</td>
-                  <td style={{ padding: '12px 12px' }}>
+                  <td style={{ padding: '16px 16px' }}><TypeBadge type={applicant.type} /></td>
+                  <td style={{ padding: '16px 16px', fontSize: 13, color: '#242424' }}>{applicant.stage}</td>
+                  <td style={{ padding: '16px 16px' }}><StagePill status={applicant.status} stage={applicant.stage} /></td>
+                  <td style={{ padding: '16px 16px', fontSize: 13, color: '#242424' }}>{applicant.coordinator}</td>
+                  <td style={{ padding: '16px 16px', fontSize: 13, color: '#7C7C7C' }}>{applicant.updated}</td>
+                  <td style={{ padding: '16px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, position: 'relative' }}>
                       <button
                         onClick={() => showToast('Document view coming soon', 'info')}
@@ -219,7 +241,7 @@ export default function Dashboard() {
               ))}
               {paginated.length === 0 && (
                 <tr>
-                  <td colSpan={7} style={{ padding: 32, textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>
+                  <td colSpan={7} style={{ padding: '32px 16px', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>
                     No applicants found.
                   </td>
                 </tr>
