@@ -18,6 +18,10 @@ function getPreloadedData(applicant) {
       7: {
         event1: { state: 'completed', date: '08/01/2025', time: '13:00', format: 'In-person', completedDate: '08/01/2025', completedTime: '1:00 PM' },
         event2: { state: 'completed', date: '08/08/2025', time: '10:00', format: 'In-person', completedDate: '08/08/2025', completedTime: '10:00 AM' }
+      },
+      12: {
+        event1: { state: 'completed', date: '07/15/2025', time: '10:00', format: 'In-person', completedDate: '07/15/2025', completedTime: '10:00 AM' },
+        event2: { state: 'completed', date: '07/22/2025', time: '10:00', format: 'In-person', completedDate: '07/22/2025', completedTime: '10:00 AM' }
       }
     };
     return preloads[id] || {
@@ -42,12 +46,20 @@ export default function OnboardingEventsTab({ applicant }) {
   const onboardingState = applicant.onboardingState;
 
   const preloaded = getPreloadedData(applicant);
-  const [event1Done, setEvent1Done] = useState(
-    preloaded.event1.state === 'completed'
-  );
+  const [resetCount, setResetCount] = useState(0);
+  const [freshMode, setFreshMode] = useState(false);
+
+  const [event1Done, setEvent1Done] = useState(preloaded.event1.state === 'completed');
   const [bothDone, setBothDone] = useState(
     preloaded.event1.state === 'completed' && preloaded.event2.state === 'completed'
   );
+
+  const handleReset = () => {
+    setFreshMode(true);
+    setResetCount(c => c + 1);
+    setEvent1Done(false);
+    setBothDone(false);
+  };
 
   if (onboardingState === 'locked') {
     return (
@@ -61,27 +73,45 @@ export default function OnboardingEventsTab({ applicant }) {
 
   const headerChip = bothDone
     ? { label: 'Completed', bg: '#F0FDF4', text: '#1A7F37' }
-    : { label: 'In Progress', bg: '#FEF3C7', text: '#92400E' };
+    : event1Done
+    ? { label: 'In Progress', bg: '#FEF3C7', text: '#92400E' }
+    : { label: 'Not Started', bg: '#F3F4F6', text: '#6B7280' };
+
+  const event1Preloaded = freshMode ? { state: 'notScheduled' } : preloaded.event1;
+  const event2Preloaded = freshMode ? { state: 'notScheduled' } : (event1Done ? preloaded.event2 : { state: 'notScheduled' });
 
   return (
     <div style={{ padding: 24, flex: 1, overflowY: 'auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
         <h4 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#242424' }}>Onboarding Events</h4>
-        <span style={{ backgroundColor: headerChip.bg, color: headerChip.text, padding: '4px 14px', borderRadius: 999, fontSize: 13, fontWeight: 600 }}>
-          {headerChip.label}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button
+            onClick={handleReset}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B7280', fontSize: 11, padding: 0, textDecoration: 'underline' }}
+          >
+            Reset onboarding for demo
+          </button>
+          <span style={{ backgroundColor: headerChip.bg, color: headerChip.text, padding: '4px 14px', borderRadius: 999, fontSize: 13, fontWeight: 600 }}>
+            {headerChip.label}
+          </span>
+        </div>
       </div>
 
-      <div style={{ position: 'relative', paddingLeft: 16 }}>
+      <p style={{ margin: '0 0 20px', fontSize: 14, color: '#6B7280' }}>
+        Complete both events sequentially. Event 2 unlocks after Event 1 is completed.
+      </p>
+
+      <div style={{ position: 'relative', paddingLeft: 20 }}>
         {/* Timeline line */}
-        <div style={{ position: 'absolute', left: 0, top: 16, bottom: 16, width: 2, backgroundColor: '#E5E7EB' }} />
+        <div style={{ position: 'absolute', left: 0, top: 20, bottom: 20, width: 1, backgroundColor: '#E5E7EB' }} />
 
         <OnboardingEventCard
+          key={`event1-${resetCount}`}
           eventName="Guest Coordinator Interview"
-          description="Schedule a 30-60 minute interview to review intake profile and program expectations."
+          description="Schedule a 30–60 minute interview to review intake profile and program expectations."
           scheduleButtonLabel="Schedule Interview"
           isLocked={false}
-          preloaded={preloaded.event1}
+          preloaded={event1Preloaded}
           onSendInvitation={() => showToast(`✅ Invitation sent to ${applicant.name}`, 'success')}
           onComplete={() => {
             setEvent1Done(true);
@@ -90,11 +120,12 @@ export default function OnboardingEventsTab({ applicant }) {
         />
 
         <OnboardingEventCard
+          key={`event2-${resetCount}`}
           eventName="Guest Training Session"
           description="Schedule a 2-hour orientation training covering program expectations, safety guidelines, and host home living."
           scheduleButtonLabel="Schedule Training"
           isLocked={!event1Done}
-          preloaded={event1Done ? preloaded.event2 : { state: 'notScheduled' }}
+          preloaded={event2Preloaded}
           onSendInvitation={() => showToast(`✅ Invitation sent to ${applicant.name}`, 'success')}
           onComplete={() => {
             setBothDone(true);

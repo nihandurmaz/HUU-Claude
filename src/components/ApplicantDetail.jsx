@@ -107,7 +107,7 @@ export default function ApplicantDetail() {
           </div>
           <button
             onClick={() => setShowNotesPanel(n => !n)}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 14px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, border: '1px solid #008BF5', borderRadius: 6, padding: '7px 14px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
           >
             <FileText size={15} /> Notes
           </button>

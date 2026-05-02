@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FileText, CheckCircle, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import AccordionSection from '../AccordionSection';
 import Modal from '../Modal';
@@ -21,8 +21,12 @@ function Stepper({ state }) {
   const stateToStep = { inReview: 0, infoRequested: 1, resubmitted: 2, approved: 3, denied: 3 };
   const current = stateToStep[state] ?? 0;
 
+  const activeColor = state === 'resubmitted' ? '#7C3AED'
+    : state === 'approved' ? '#1A7F37'
+    : '#008BF5';
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
       {steps.map((step, i) => {
         const done = i < current;
         const active = i === current;
@@ -31,17 +35,20 @@ function Stepper({ state }) {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
               <div style={{
                 width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backgroundColor: done ? '#1A7F37' : active ? '#008BF5' : '#E5E7EB',
+                backgroundColor: done ? '#1A7F37' : active ? activeColor : '#E5E7EB',
                 color: done || active ? '#fff' : '#9CA3AF', fontWeight: 700, fontSize: 12, flexShrink: 0
               }}>
                 {done ? '✓' : i + 1}
               </div>
-              <span style={{ fontSize: 11, color: done ? '#1A7F37' : active ? '#008BF5' : '#9CA3AF', textAlign: 'center', fontWeight: active ? 600 : 400, whiteSpace: 'nowrap' }}>
+              <span style={{
+                fontSize: 11, color: done ? '#6B7280' : active ? activeColor : '#9CA3AF',
+                textAlign: 'center', fontWeight: active ? 600 : 400, whiteSpace: 'nowrap'
+              }}>
                 {step}
               </span>
             </div>
             {i < steps.length - 1 && (
-              <div style={{ flex: 1, height: 2, backgroundColor: done ? '#1A7F37' : '#E5E7EB', margin: '0 8px', marginBottom: 20 }} />
+              <div style={{ flex: 1, height: 2, backgroundColor: i < current ? activeColor : '#E5E7EB', margin: '0 8px', marginBottom: 20 }} />
             )}
           </div>
         );
@@ -58,7 +65,6 @@ export default function IntakeProfileTab({ applicant }) {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDenyModal, setShowDenyModal] = useState(false);
 
-  // Info request modal state
   const [infoCategories, setInfoCategories] = useState({ employment: true, education: false, background: false, interest: false, substance: true });
   const [infoNote, setInfoNote] = useState('');
   const [infoCatError, setInfoCatError] = useState('');
@@ -95,67 +101,44 @@ export default function IntakeProfileTab({ applicant }) {
     : 'Needs Attention';
   const pendingBadgeType = state === 'resubmitted' ? 'purple' : 'amber';
 
-  const ActionButtons = () => (
-    <div style={{ display: 'flex', gap: 8 }}>
-      <button
-        onClick={() => setShowApproveModal(true)}
-        style={{ backgroundColor: '#242424', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
-      >
-        Approve {applicant.type}
-      </button>
-      <button
-        onClick={() => setShowInfoModal(true)}
-        style={{ backgroundColor: '#fff', color: '#008BF5', border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
-      >
-        Request More Info
-      </button>
-      <button
-        onClick={() => setShowDenyModal(true)}
-        style={{ backgroundColor: '#fff', color: '#DC2626', border: '1px solid #DC2626', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
-      >
-        Deny
-      </button>
-    </div>
-  );
-
   return (
     <div style={{ padding: 24, flex: 1, overflowY: 'auto' }}>
       <Stepper state={state} />
 
-      {/* Header row */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <FileText size={18} style={{ color: '#7C7C7C' }} />
-          <div>
-            <span style={{ fontWeight: 700, fontSize: 16, color: '#242424' }}>Intake Profile</span>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: '#7C7C7C' }}>
-              {state === 'resubmitted' ? 'Submitted on 30th Aug 2025' : 'Submitted on 24th Aug 2025'}
-            </p>
-          </div>
-        </div>
-
-        {(state === 'inReview' || state === 'resubmitted') && <ActionButtons />}
-
-        {state === 'infoRequested' && (
-          <span style={{ fontSize: 13, color: '#D69E2E', fontWeight: 500 }}>
-            25th Aug 2025 | Information requested
-          </span>
+      {/* Dates row */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <span style={{ fontSize: 13, color: '#6B7280' }}>
+          Submitted {state === 'resubmitted' ? '30th Aug 2025' : '24th Aug 2025'}
+        </span>
+        {state === 'resubmitted' && (
+          <span style={{ fontSize: 13, color: '#7C3AED', fontWeight: 500 }}>1st Sep 2025 | Resubmitted</span>
         )}
-
+        {state === 'infoRequested' && (
+          <span style={{ fontSize: 13, color: '#D69E2E', fontWeight: 500 }}>25th Aug 2025 | Information requested</span>
+        )}
         {state === 'approved' && (
-          <span style={{ fontSize: 13, color: '#1A7F37', fontWeight: 500 }}>
-            ✅ Application approved on 1st Sep 2025
-          </span>
+          <span style={{ fontSize: 13, color: '#1A7F37', fontWeight: 500 }}>✅ Approved on 1st Sep 2025</span>
         )}
       </div>
 
-      {/* Banners */}
+      {/* Resubmitted banner */}
+      {state === 'resubmitted' && (
+        <div style={{ backgroundColor: '#F3E8FF', border: '1px solid #7C3AED', borderRadius: 6, padding: 16, marginBottom: 16 }}>
+          <p style={{ margin: '0 0 4px', fontWeight: 600, fontSize: 13, color: '#7C3AED' }}>↺ Resubmitted by applicant</p>
+          <p style={{ margin: 0, fontSize: 13, color: '#7C3AED' }}>
+            {applicant.name} has provided additional information for Employment Information and Substance Use. Please review and approve or request more information.
+          </p>
+        </div>
+      )}
+
+      {/* Info requested banner */}
       {state === 'infoRequested' && (
-        <div style={{ backgroundColor: '#F5F5F5', borderBottom: '1px solid #E5E7EB', padding: '12px 16px', marginBottom: 20, borderRadius: 6, fontSize: 13, color: '#7C7C7C' }}>
+        <div style={{ backgroundColor: '#F5F5F5', border: '1px solid #E5E7EB', borderRadius: 6, padding: '12px 16px', marginBottom: 16, fontSize: 13, color: '#7C7C7C' }}>
           <strong>Feedback:</strong> More information is needed in Employment Information and Substance Use
         </div>
       )}
 
+      {/* Approved banner */}
       {state === 'approved' && (
         <div style={{ backgroundColor: '#F0FDF4', border: '1px solid #1A7F37', borderRadius: 6, padding: '14px 16px', marginBottom: 20 }}>
           <p style={{ margin: '0 0 6px', color: '#1A7F37', fontWeight: 600, fontSize: 13 }}>
@@ -170,27 +153,42 @@ export default function IntakeProfileTab({ applicant }) {
         </div>
       )}
 
+      {/* Action buttons */}
+      {(state === 'inReview' || state === 'resubmitted') && (
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginBottom: 24 }}>
+          <button
+            onClick={() => setShowDenyModal(true)}
+            style={{ backgroundColor: '#fff', color: '#DC2626', border: '1px solid #DC2626', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+          >
+            Deny
+          </button>
+          <button
+            onClick={() => setShowInfoModal(true)}
+            style={{ backgroundColor: '#fff', color: '#008BF5', border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+          >
+            Request More Info
+          </button>
+          <button
+            onClick={() => setShowApproveModal(true)}
+            style={{ backgroundColor: '#242424', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+          >
+            Approve {applicant.type}
+          </button>
+        </div>
+      )}
+
       {/* Sections */}
       {state !== 'approved' && (
         <>
-          <p style={{ margin: '0 0 8px', fontSize: 11, color: '#9CA3AF', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' }}>
+          <p style={{ margin: '0 0 8px', fontSize: 11, color: '#6B7280', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
             PENDING (2)
           </p>
-          <AccordionSection
-            title="Employment Information"
-            badge={pendingBadge}
-            badgeType={pendingBadgeType}
-          >
+          <AccordionSection title="Employment Information" badge={pendingBadge} badgeType={pendingBadgeType}>
             <QA q="Are you currently employed?" a="Yes" />
             <QA q="Role:" a="Part-time barista, Blue Bottle Coffee" />
             <QA q="Seeking employment or educational opportunities?" a="Yes" />
           </AccordionSection>
-
-          <AccordionSection
-            title="Substance Use"
-            badge={pendingBadge}
-            badgeType={pendingBadgeType}
-          >
+          <AccordionSection title="Substance Use" badge={pendingBadge} badgeType={pendingBadgeType}>
             <QA q="Do you smoke cigarettes?" a="Yes" />
             <QA q="Smoke inside home?" a="Yes" />
             <QA q="Drink alcohol?" a="Yes" />
@@ -198,16 +196,15 @@ export default function IntakeProfileTab({ applicant }) {
             <QA q="Other substances?" a="No" />
             <QA q="Agree to no substance use in host home?" a="No answer yet" redIfEmpty />
           </AccordionSection>
-
-          <p style={{ margin: '16px 0 8px', fontSize: 11, color: '#9CA3AF', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' }}>
+          <p style={{ margin: '16px 0 8px', fontSize: 11, color: '#6B7280', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
             APPROVED (4)
           </p>
         </>
       )}
 
       {state === 'approved' && (
-        <p style={{ margin: '0 0 8px', fontSize: 11, color: '#9CA3AF', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' }}>
-          ALL SECTIONS (6)
+        <p style={{ margin: '0 0 8px', fontSize: 11, color: '#6B7280', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+          APPROVED (6)
         </p>
       )}
 
@@ -255,7 +252,7 @@ export default function IntakeProfileTab({ applicant }) {
       {/* Request More Info Modal */}
       <Modal isOpen={showInfoModal} onClose={() => setShowInfoModal(false)} title="Request more information">
         <p style={{ margin: '0 0 16px', fontSize: 13, color: '#7C7C7C' }}>
-          You are requesting more information from Guest.
+          You are requesting more information from {applicant.type}.
         </p>
         <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#242424' }}>
           Select the category(s) where more information is needed.
@@ -278,7 +275,6 @@ export default function IntakeProfileTab({ applicant }) {
           ))}
         </div>
         {infoCatError && <p style={{ margin: '4px 0 8px', fontSize: 12, color: '#DC2626' }}>{infoCatError}</p>}
-
         <div style={{ marginTop: 16 }}>
           <label style={{ fontSize: 13, fontWeight: 600, color: '#242424', display: 'block', marginBottom: 4 }}>Add a note *</label>
           <textarea
@@ -289,7 +285,6 @@ export default function IntakeProfileTab({ applicant }) {
           />
           <p style={{ margin: '4px 0 0', fontSize: 11, color: '#9CA3AF' }}>This note will be visible to the Guest/Host</p>
         </div>
-
         <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
           <button
             onClick={() => setShowInfoModal(false)}
@@ -307,14 +302,14 @@ export default function IntakeProfileTab({ applicant }) {
       </Modal>
 
       {/* Approve Modal */}
-      <Modal isOpen={showApproveModal} onClose={() => setShowApproveModal(false)} title={`Approve ${applicant.name}'s intake profile?`}>
+      <Modal isOpen={showApproveModal} onClose={() => setShowApproveModal(false)} title="Approve intake profile?">
         <p style={{ margin: '0 0 20px', fontSize: 14, color: '#7C7C7C' }}>
-          This will unlock Onboarding Events and notify the applicant.
+          Approve {applicant.name}'s intake profile? This will unlock Onboarding Events and notify the applicant.
         </p>
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             onClick={() => setShowApproveModal(false)}
-            style={{ flex: 1, border: '1px solid #E5E7EB', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}
+            style={{ flex: 1, border: '1px solid #008BF5', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
           >
             Cancel
           </button>

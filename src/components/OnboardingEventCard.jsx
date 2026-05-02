@@ -3,7 +3,7 @@ import { Lock } from 'lucide-react';
 
 const borderColors = {
   notScheduled: '#9CA3AF',
-  scheduled: '#D69E2E',
+  scheduled: '#F59E0B',
   overdue: '#DC2626',
   completed: '#1A7F37'
 };
@@ -82,17 +82,15 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
 
   if (isLocked) {
     return (
-      <div style={{ border: '1px solid #E5E7EB', borderLeft: `3px solid ${borderColor}`, borderRadius: 6, padding: 16, backgroundColor: '#FAFAFA', marginBottom: 16 }}>
+      <div style={{ border: '1px solid #E5E7EB', borderLeft: '4px solid #E5E7EB', borderRadius: 6, padding: 16, backgroundColor: '#F9FAFB', marginBottom: 16, opacity: 0.7 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
           <span style={{ fontWeight: 600, fontSize: 14, color: '#9CA3AF' }}>{eventName}</span>
-          <StatusChip state="notScheduled" />
+          <Lock size={16} style={{ color: '#9CA3AF', flexShrink: 0 }} />
         </div>
-        <p style={{ margin: '0 0 10px', fontSize: 13, color: '#9CA3AF' }}>{description}</p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#9CA3AF', fontSize: 13 }}>
-          <Lock size={14} />
-          Complete the Coordinator Interview first to schedule training.
-        </div>
-        <button disabled style={{ marginTop: 10, backgroundColor: '#E5E7EB', color: '#9CA3AF', border: 'none', borderRadius: 6, padding: '7px 14px', fontSize: 13, cursor: 'not-allowed' }}>
+        <p style={{ margin: '0 0 12px', fontSize: 13, color: '#9CA3AF', fontStyle: 'italic' }}>
+          Complete the Coordinator Interview first to unlock training scheduling.
+        </p>
+        <button disabled style={{ backgroundColor: '#E5E7EB', color: '#9CA3AF', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, cursor: 'not-allowed', opacity: 0.5 }}>
           {scheduleButtonLabel}
         </button>
       </div>
@@ -100,7 +98,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
   }
 
   return (
-    <div style={{ border: '1px solid #E5E7EB', borderLeft: `3px solid ${borderColor}`, borderRadius: 6, padding: 16, backgroundColor: cardBg, marginBottom: 16 }}>
+    <div style={{ border: '1px solid #E5E7EB', borderLeft: `4px solid ${borderColor}`, borderRadius: 6, padding: 16, backgroundColor: cardBg, marginBottom: 16 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
         <span style={{ fontWeight: 600, fontSize: 14, color: '#242424' }}>{eventName}</span>
         <StatusChip state={eventState} />
@@ -111,7 +109,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
       {eventState === 'notScheduled' && !showScheduleForm && (
         <button
           onClick={() => openScheduleForm(false)}
-          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
         >
           {scheduleButtonLabel}
         </button>
@@ -166,7 +164,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
 
       {/* Completed */}
       {eventState === 'completed' && (
-        <p style={{ margin: 0, fontSize: 13, color: '#1A7F37' }}>
+        <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>
           Completed on {completedDate} at {completedTime}
         </p>
       )}
