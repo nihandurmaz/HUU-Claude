@@ -403,16 +403,16 @@ export const matchData = {
         initials: "RG",
         avatarColor: "#008BF5",
         score: 86,
-        explanation: "Roberto and Elena have extensive hosting experience and a culturally diverse household. Their home is LGBTQ+-affirming and alcohol-free. Note: there is a dog in the home — confirm Olivia has no allergies.",
+        explanation: "Roberto and Elena bring strong bilingual support and have hosted before. Some logistics around school proximity should be confirmed.",
         criteria: {
           lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
           dietary: { status: "compatible", label: "Dietary Needs" },
           substance: { status: "compatible", label: "Substance Use" },
           mental: { status: "compatible", label: "Mental Health" },
           cultural: { status: "compatible", label: "Cultural Background" },
-          struggles: { status: "compatible", label: "Past Struggles" },
+          struggles: { status: "insufficient", label: "Past Struggles" },
           capacity: { status: "concern", label: "Hosting Capacity" },
-          pets: { status: "concern", label: "Pets" },
+          pets: { status: "compatible", label: "Pets" },
           parenting: { status: "insufficient", label: "Parenting Youth" }
         },
         flags: [
@@ -420,15 +420,8 @@ export const matchData = {
             color: "amber",
             criteria: "Hosting Capacity",
             level: "Potential concern",
-            explanation: "Roberto and Elena currently have teenage children at home. Confirm that hosting capacity and household dynamics are suitable for Olivia's placement.",
-            source: "Host Interest — number of youth / household members"
-          },
-          {
-            color: "amber",
-            criteria: "Pets",
-            level: "Potential concern",
-            explanation: "The Gomez household has a dog. Olivia's allergy status should be confirmed before proceeding.",
-            source: "Host basic info — pets in household / Guest allergies"
+            explanation: "Current hosting commitments should be verified before confirming.",
+            source: "Host basic info — current placements"
           }
         ],
         tooltips: {
@@ -437,9 +430,9 @@ export const matchData = {
           substance: "Based on: Substance Use — alcohol-free household confirmed",
           mental: "Based on: Host Background — no concerns noted",
           cultural: "Based on: Background — culturally diverse, compatible background",
-          struggles: "Based on: Host Interest — extensive hosting experience",
-          capacity: "Based on: Host Interest — household has teenage children, confirm capacity",
-          pets: "Based on: Host basic info — dog in household",
+          struggles: "Based on: Host Interest — data not available",
+          capacity: "Based on: Host Interest — current hosting commitments should be verified",
+          pets: "Based on: Host basic info — no concerns noted",
           parenting: "Based on: Host Interest — not specified"
         }
       }
@@ -770,8 +763,8 @@ export const matchData = {
             color: "amber",
             criteria: "Mental Health",
             level: "Potential concern",
-            explanation: "Some mental health-related information was provided in the Nakamura household background, but warrants coordinator follow-up before finalizing placement.",
-            source: "Host Background section — mental health concerns in household"
+            explanation: "Some information about mental health support in the household was provided but warrants follow-up.",
+            source: "Host Background — mental health in household"
           }
         ],
         tooltips: {

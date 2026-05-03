@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Info, CheckCircle, SearchX, ShieldX, FileX } from 'lucide-react';
+import { Info, CheckCircle, SearchX, ShieldX, FileX, Loader2 } from 'lucide-react';
 import { applicants } from '../../data/applicants';
 import { matchData } from '../../data/matches';
 import { useApp } from '../../context/AppContext';
@@ -41,11 +41,11 @@ function MatchConfirmedState({ guestName, hostName, onRelationship }) {
 
 function AIPreState({ onGenerate, guestName }) {
   return (
-    <div style={{ padding: '24px 0' }}>
+    <div style={{ paddingTop: 64 }}>
       <p style={{ margin: '0 0 16px', fontSize: 14, color: '#7C7C7C' }}>
         Ready to generate AI match suggestions for {guestName}.
       </p>
-      <div style={{ backgroundColor: '#E7F1FD', borderLeft: '3px solid #008BF5', borderRadius: 6, padding: '14px 16px', marginBottom: 24 }}>
+      <div style={{ backgroundColor: '#E7F1FD', borderLeft: '3px solid #008BF5', borderRadius: 6, padding: 16, marginBottom: 32 }}>
         <p style={{ margin: 0, fontSize: 13, color: '#242424', lineHeight: 1.6 }}>
           The AI will analyze {guestName}'s intake profile across 9 compatibility criteria and rank available hosts by compatibility score.
         </p>
@@ -55,13 +55,13 @@ function AIPreState({ onGenerate, guestName }) {
           onClick={onGenerate}
           style={{
             backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6,
-            padding: '14px 32px', fontSize: 16, fontWeight: 700, cursor: 'pointer',
+            padding: '14px 32px', fontSize: 16, fontWeight: 500, cursor: 'pointer',
             display: 'inline-flex', alignItems: 'center', gap: 10
           }}
         >
           🤖 Generate AI Matches
         </button>
-        <p style={{ margin: '12px 0 0', fontSize: 12, color: '#7C7C7C' }}>
+        <p style={{ margin: '24px 0 0', fontSize: 12, color: '#6B7280', maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
           AI will evaluate: LGBTQ+ Safety · Dietary Needs · Substance Use · Mental Health · Cultural Background · Past Struggles · Hosting Capacity · Pets · Parenting Youth
         </p>
       </div>
@@ -71,24 +71,25 @@ function AIPreState({ onGenerate, guestName }) {
 
 function AILoadingState({ visibleStepCount, steps }) {
   return (
-    <div style={{ padding: '24px 0' }}>
+    <div style={{ paddingTop: 32, display: 'flex', justifyContent: 'center' }}>
       <div style={{
-        border: '1px solid #E5E7EB', borderRadius: 6, padding: 24,
-        animation: 'pulse 2s ease infinite'
+        width: '100%', maxWidth: 480,
+        backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: 6, padding: 32
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-          <div style={{ width: 24, height: 24, border: '3px solid #E5E7EB', borderTopColor: '#008BF5', borderRadius: '50%', animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />
-          <span style={{ fontWeight: 700, fontSize: 15, color: '#242424' }}>AI is analyzing compatibility...</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
+          <Loader2 size={32} style={{ color: '#008BF5', animation: 'spin 0.8s linear infinite', marginBottom: 16 }} />
+          <span style={{ fontWeight: 700, fontSize: 16, color: '#242424' }}>AI is analyzing compatibility...</span>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
           {steps.map((step, i) => (
             <div
               key={i}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
                 opacity: i < visibleStepCount ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-                fontSize: 13, color: '#242424'
+                transform: i < visibleStepCount ? 'translateY(0)' : 'translateY(4px)',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+                fontSize: 14, color: '#6B7280', lineHeight: 1.6
               }}
             >
               <span style={{ color: '#1A7F37', fontWeight: 700, flexShrink: 0 }}>✓</span>
@@ -97,6 +98,20 @@ function AILoadingState({ visibleStepCount, steps }) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function ViewAllHostsLink({ onClick }) {
+  return (
+    <div style={{ textAlign: 'center', marginTop: 16 }}>
+      <p style={{ margin: '0 0 4px', fontSize: 14, color: '#6B7280' }}>Not finding the right match?</p>
+      <button
+        onClick={onClick}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 14, fontWeight: 600, padding: 0 }}
+      >
+        View all eligible hosts →
+      </button>
     </div>
   );
 }
@@ -126,7 +141,6 @@ export default function MatchmakingTab({ applicant }) {
 
   const [aiState, setAiState] = useState('idle');
   const [visibleStepCount, setVisibleStepCount] = useState(0);
-
   const [visibleCards, setVisibleCards] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [pendingMatch, setPendingMatch] = useState(null);
@@ -142,7 +156,7 @@ export default function MatchmakingTab({ applicant }) {
   useEffect(() => {
     if (aiState !== 'loading') return;
     if (visibleStepCount >= loadingSteps.length) {
-      const t = setTimeout(() => setAiState('complete'), 500);
+      const t = setTimeout(() => setAiState('complete'), 400);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => setVisibleStepCount(s => s + 1), 600);
@@ -203,7 +217,7 @@ export default function MatchmakingTab({ applicant }) {
   if (alreadyMatched) {
     return (
       <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
-        <Header applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} selectedGuest={selectedGuest} />
+        <Header applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
         <MatchConfirmedState
           guestName={alreadyMatched.guestName}
           hostName={alreadyMatched.hostName}
@@ -216,7 +230,7 @@ export default function MatchmakingTab({ applicant }) {
   if (!data) {
     return (
       <div style={{ flex: 1, padding: 24 }}>
-        <Header applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} selectedGuest={selectedGuest} />
+        <Header applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
         <p style={{ color: '#7C7C7C', fontSize: 14 }}>No match data available for this applicant.</p>
       </div>
     );
@@ -227,19 +241,19 @@ export default function MatchmakingTab({ applicant }) {
 
   const trustBanner = (
     <>
-      <div style={{ backgroundColor: '#E7F1FD', borderLeft: '3px solid #008BF5', borderRadius: 6, padding: '10px 14px', marginBottom: 4, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+      <div style={{ backgroundColor: '#E7F1FD', borderLeft: '3px solid #008BF5', borderRadius: 6, padding: '12px 16px', marginBottom: 4, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
         <Info size={16} style={{ color: '#008BF5', flexShrink: 0, marginTop: 1 }} />
         <span style={{ fontSize: 13, color: '#242424' }}>These suggestions are generated by AI to support your decision. You make the final call.</span>
       </div>
       <p style={{ margin: '0 0 16px', fontSize: 12, color: '#7C7C7C' }}>
-        Match criteria are drawn directly from each applicant's intake profile. Incomplete sections may limit results.
+        Match criteria are drawn directly from the intake profile. Incomplete sections may limit results.
       </p>
     </>
   );
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
-      <Header applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} selectedGuest={selectedGuest} />
+      <Header applicantList={applicantList} selectedGuestId={selectedGuestId} onChange={handleGuestChange} />
 
       {/* ── All states: idle ── */}
       {aiState === 'idle' && (
@@ -256,20 +270,19 @@ export default function MatchmakingTab({ applicant }) {
         <>
           {trustBanner}
           {visibleMatches.map((match, i) => (
-            <div key={match.id} style={{ animation: `fadeIn 0.4s ease ${i * 0.3}s both` }}>
+            <div key={match.id} style={{ animation: `fadeIn 0.4s ease ${i * 0.25}s both` }}>
               <MatchCard match={match} matchType={data.type} onProceed={handleProceed} onSkip={handleSkip} />
             </div>
           ))}
           {!declinedHidden && data.declinedPairs?.map(dp => (
-            <div key={dp.name} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: 14, marginBottom: 12, backgroundColor: '#FAFAFA', opacity: 0.6 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 14, color: '#9CA3AF' }}>⊘ {dp.name} — Previously declined</span>
-                <button onClick={() => setDeclinedHidden(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#9CA3AF' }}>Remove from view</button>
+            <div key={dp.name} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: 16, marginBottom: 12, backgroundColor: '#F9FAFB', opacity: 0.6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontSize: 14, color: '#6B7280' }}>⊘ {dp.name} — Previously declined</span>
               </div>
-              <p style={{ margin: '4px 0 6px', fontSize: 12, color: '#9CA3AF' }}>Declined by host on {dp.declinedDate}.</p>
+              <p style={{ margin: '0 0 6px', fontSize: 13, color: '#6B7280' }}>Declined by host on {dp.declinedDate}.</p>
               <button
                 onClick={() => setShowDeclinedDetails(e => !e)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 12 }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 13, padding: 0 }}
               >
                 {showDeclinedDetails ? 'Hide Details' : 'View Details'}
               </button>
@@ -280,29 +293,30 @@ export default function MatchmakingTab({ applicant }) {
                   <div>Reason: {dp.reason}</div>
                 </div>
               )}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+                <button
+                  onClick={() => setDeclinedHidden(true)}
+                  style={{ border: '1px solid #6B7280', borderRadius: 6, padding: '6px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#6B7280' }}
+                >
+                  Remove from view
+                </button>
+              </div>
             </div>
           ))}
-          <div style={{ textAlign: 'center', marginTop: 8 }}>
-            <button
-              onClick={() => setShowHostGallery(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 14, fontWeight: 600, padding: 0 }}
-            >
-              Not finding the right match? View all eligible hosts →
-            </button>
-          </div>
+          <ViewAllHostsLink onClick={() => setShowHostGallery(true)} />
         </>
       )}
 
       {/* ── complete: normalMatches — all skipped ── */}
       {aiState === 'complete' && data.type === 'normalMatches' && skippedOnly && (
         <div style={{ textAlign: 'center', padding: 32, color: '#7C7C7C' }}>
-          <p style={{ fontSize: 14, marginBottom: 12 }}>You have reviewed all suggested matches.</p>
+          <p style={{ fontSize: 14, marginBottom: 16 }}>You have reviewed all suggested matches.</p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               View All Hosts Manually
             </button>
-            <button onClick={() => { setVisibleCards(null); setSkippedOnly(false); }} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
-              Re-run Matches
+            <button onClick={() => { setVisibleCards(null); setSkippedOnly(false); setAiState('idle'); setVisibleStepCount(0); }} style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              Re-run AI Matching
             </button>
           </div>
         </div>
@@ -310,37 +324,41 @@ export default function MatchmakingTab({ applicant }) {
 
       {/* ── complete: noMatches ── */}
       {aiState === 'complete' && data.type === 'noMatches' && (
-        <div style={{ textAlign: 'center', padding: '32px 0' }}>
-          <SearchX size={48} style={{ color: '#6B7280', marginBottom: 12 }} />
-          <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424', fontSize: 18 }}>No matches found</h4>
-          <p style={{ margin: '0 0 20px', fontSize: 14, color: '#7C7C7C' }}>
-            Based on {selectedGuest.name}'s current profile, no hosts scored above the 40% compatibility minimum threshold.
-          </p>
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
-            <button
-              onClick={() => { setAiState('idle'); setVisibleStepCount(0); }}
-              style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}
-            >
-              Re-run Matches
-            </button>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
-              View All Hosts Manually
-            </button>
+        <div style={{ paddingTop: 64 }}>
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
+            <SearchX size={48} style={{ color: '#6B7280', marginBottom: 12 }} />
+            <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424', fontSize: 18 }}>No matches found</h4>
+            <p style={{ margin: '0 0 20px', fontSize: 14, color: '#6B7280', maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
+              No available hosts currently meet {selectedGuest.name}'s profile requirements. New hosts may become available as they complete onboarding.
+            </p>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 12 }}>
+              <button
+                onClick={() => { setAiState('idle'); setVisibleStepCount(0); }}
+                style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Re-run AI Matching
+              </button>
+              <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '8px 20px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
+                View All Hosts Manually
+              </button>
+            </div>
           </div>
-          <div style={{ textAlign: 'left', maxWidth: 480, margin: '0 auto' }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#242424', marginBottom: 6 }}>Add a follow-up note for this case:</p>
+          <div style={{ maxWidth: 480, margin: '0 auto' }}>
+            <p style={{ fontSize: 12, color: '#6B7280', marginBottom: 6 }}>Add a follow-up note for this case:</p>
             <textarea
               value={noMatchesNoteText}
               onChange={e => setNoMatchesNoteText(e.target.value)}
               placeholder="Add a note..."
-              style={{ width: '100%', minHeight: 72, border: '1px solid #E5E7EB', borderRadius: 6, padding: 8, fontSize: 13, resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
+              style={{ width: '100%', minHeight: 80, border: '1px solid #E5E7EB', borderRadius: 6, padding: 8, fontSize: 13, resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
             />
-            <button
-              onClick={() => { if (noMatchesNoteText.trim()) { addNote(selectedGuestId, noMatchesNoteText); setNoMatchesNoteText(''); showToast('✅ Note saved', 'success'); } }}
-              style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginTop: 8 }}
-            >
-              Save Note
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+              <button
+                onClick={() => { if (noMatchesNoteText.trim()) { addNote(selectedGuestId, noMatchesNoteText); setNoMatchesNoteText(''); showToast('✅ Note saved', 'success'); } }}
+                style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Save Note
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -349,24 +367,20 @@ export default function MatchmakingTab({ applicant }) {
       {aiState === 'complete' && data.type === 'singleMatch' && !showSingleSkipped && (
         <>
           {trustBanner}
-          <div style={{ backgroundColor: '#FEF3C7', color: '#92400E', borderRadius: 6, padding: '10px 14px', marginBottom: 12, fontSize: 13, fontWeight: 600 }}>
-            ⚠ Only 1 host match was found for {selectedGuest.name}. Review carefully before proceeding.
-          </div>
+          <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6B7280' }}>
+            Only 1 host currently matches {selectedGuest.name}'s profile. Consider expanding the host pool if this match doesn't proceed.
+          </p>
           {visibleMatches.map(match => (
             <MatchCard key={match.id} match={match} matchType={data.type} onProceed={handleProceed} onSkip={handleSkip} />
           ))}
-          <div style={{ textAlign: 'center', marginTop: 8 }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 14, fontWeight: 600, padding: 0 }}>
-              Not finding the right match? View all eligible hosts →
-            </button>
-          </div>
+          <ViewAllHostsLink onClick={() => setShowHostGallery(true)} />
         </>
       )}
       {aiState === 'complete' && data.type === 'singleMatch' && showSingleSkipped && (
         <div style={{ textAlign: 'center', padding: 32, color: '#7C7C7C' }}>
           <p style={{ fontSize: 14, marginBottom: 12 }}>You've skipped the only available match.</p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               View All Hosts Manually
             </button>
             <button onClick={() => { setShowSingleSkipped(false); setVisibleCards(data.matches.map(m => m.id)); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#008BF5' }}>
@@ -379,20 +393,20 @@ export default function MatchmakingTab({ applicant }) {
       {/* ── complete: allRedFlags ── */}
       {aiState === 'complete' && data.type === 'allRedFlags' && (
         <>
-          <div style={{ backgroundColor: '#FEE2E2', borderLeft: '3px solid #DC2626', borderRadius: 6, padding: '10px 14px', marginBottom: 12, fontSize: 13, fontWeight: 600, color: '#DC2626' }}>
-            ⚠ All suggested matches have at least one incompatible criteria. Proceed with caution and review each carefully.
+          <div style={{ backgroundColor: '#FEE2E2', borderLeft: '3px solid #DC2626', borderRadius: 6, padding: 16, marginBottom: 16, fontSize: 13, color: '#DC2626' }}>
+            ⚠ All suggested matches have at least one incompatible criterion. Proceed with caution and review each carefully. A written override will be required to confirm any of these matches.
           </div>
           {trustBanner}
           {visibleMatches.map((match, i) => (
-            <div key={match.id} style={{ animation: `fadeIn 0.4s ease ${i * 0.3}s both` }}>
+            <div key={match.id} style={{ animation: `fadeIn 0.4s ease ${i * 0.25}s both` }}>
               <MatchCard match={match} matchType={data.type} onProceed={handleProceed} onSkip={handleSkip} />
             </div>
           ))}
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8 }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               View All Hosts Manually
             </button>
-            <button onClick={goToDashboard} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={goToDashboard} style={{ border: '1px solid #6B7280', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#6B7280' }}>
               Return to Dashboard
             </button>
           </div>
@@ -402,76 +416,80 @@ export default function MatchmakingTab({ applicant }) {
       {/* ── complete: noSafeMatches ── */}
       {aiState === 'complete' && data.type === 'noSafeMatches' && (
         <div>
-          <div style={{ textAlign: 'center', padding: '24px 0 12px' }}>
+          <div style={{ textAlign: 'center', paddingTop: 64, paddingBottom: 12 }}>
             <ShieldX size={48} style={{ color: '#DC2626', marginBottom: 12 }} />
-            <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424', fontSize: 18 }}>No safe matches available</h4>
+            <h4 style={{ margin: '0 0 16px', fontWeight: 700, color: '#242424', fontSize: 18 }}>No safe matches available</h4>
           </div>
-          <div style={{ backgroundColor: '#FEE2E2', borderLeft: '3px solid #DC2626', borderRadius: 6, padding: '10px 14px', marginBottom: 12, fontSize: 13, fontWeight: 600, color: '#DC2626' }}>
+          <div style={{ backgroundColor: '#FEE2E2', borderLeft: '3px solid #DC2626', borderRadius: 6, padding: 16, marginBottom: 16, fontSize: 13, color: '#DC2626' }}>
             {selectedGuest.name}'s profile requires an LGBTQ+-affirming host. No verified affirming hosts are currently available.
           </div>
-          <div style={{ backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 6, padding: 14, marginBottom: 16 }}>
-            <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700, color: '#242424' }}>Why this is a hard requirement:</p>
-            <p style={{ margin: 0, fontSize: 13, color: '#7C7C7C', lineHeight: 1.6 }}>
+          <div style={{ backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 6, padding: 16, marginBottom: 16 }}>
+            <p style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 700, color: '#242424' }}>Why this is a hard requirement</p>
+            <p style={{ margin: 0, fontSize: 14, color: '#242424', lineHeight: 1.6 }}>
               {selectedGuest.name} is transgender and specifically needs an affirming, safe home environment. The AI treats LGBTQ+ Safety as a non-negotiable criterion for guests who have marked it as a hard requirement. This cannot be overridden.
             </p>
           </div>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-            <button onClick={() => setExpandedPool(e => !e)} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
+            <button onClick={() => setExpandedPool(e => !e)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               Expand Host Pool
             </button>
-            <button onClick={goToDashboard} style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}>
+            <button onClick={goToDashboard} style={{ border: '1px solid #6B7280', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#6B7280' }}>
               Return to Dashboard
             </button>
           </div>
           {expandedPool && (
             <div style={{ backgroundColor: '#E7F1FD', borderRadius: 6, padding: 12, marginBottom: 16, fontSize: 13, color: '#242424' }}>
-              Contact your program administrator to recruit LGBTQ+-affirming hosts. Current affirming hosts available: 0
+              Contact your program administrator to recruit LGBTQ+-affirming hosts. Currently affirming hosts available: 0
             </div>
           )}
           <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#242424', marginBottom: 6 }}>Add a follow-up note for this case:</p>
+            <p style={{ fontSize: 12, color: '#6B7280', marginBottom: 6 }}>Add a follow-up note for this case:</p>
             <textarea
               value={noSafeNoteText}
               onChange={e => setNoSafeNoteText(e.target.value)}
               placeholder="Add a note..."
-              style={{ width: '100%', minHeight: 72, border: '1px solid #E5E7EB', borderRadius: 6, padding: 8, fontSize: 13, resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
+              style={{ width: '100%', minHeight: 80, border: '1px solid #E5E7EB', borderRadius: 6, padding: 8, fontSize: 13, resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
             />
-            <button
-              onClick={() => { if (noSafeNoteText.trim()) { addNote(selectedGuestId, noSafeNoteText); setNoSafeNoteText(''); showToast('✅ Note saved', 'success'); } }}
-              style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginTop: 8 }}
-            >
-              Save Note
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+              <button
+                onClick={() => { if (noSafeNoteText.trim()) { addNote(selectedGuestId, noSafeNoteText); setNoSafeNoteText(''); showToast('✅ Note saved', 'success'); } }}
+                style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Save Note
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       {/* ── complete: insufficientData ── */}
       {aiState === 'complete' && data.type === 'insufficientData' && (
-        <div>
-          <div style={{ textAlign: 'center', padding: '24px 0 16px' }}>
+        <div style={{ paddingTop: 64 }}>
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
             <FileX size={48} style={{ color: '#6B7280', marginBottom: 12 }} />
-            <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424', fontSize: 18 }}>Insufficient profile data</h4>
-            <p style={{ margin: '0 0 16px', fontSize: 14, color: '#7C7C7C' }}>{selectedGuest.name}'s profile is missing key information required to generate matches.</p>
+            <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424', fontSize: 18 }}>Not enough profile data to match</h4>
+            <p style={{ margin: '0 0 0', fontSize: 14, color: '#6B7280', maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
+              {selectedGuest.name}'s host profile is missing key information needed for compatibility analysis. Complete the profile to enable matching.
+            </p>
           </div>
-          <div style={{ backgroundColor: '#FEF3C7', borderLeft: '3px solid #92400E', borderRadius: 6, padding: '12px 16px', marginBottom: 20 }}>
-            <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700, color: '#92400E' }}>Missing sections:</p>
+          <div style={{ backgroundColor: '#FEF3C7', borderLeft: '3px solid #92400E', borderRadius: 6, padding: 16, marginBottom: 24, maxWidth: 480, margin: '0 auto 24px' }}>
+            <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700, color: '#92400E' }}>Missing or incomplete sections:</p>
             <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: '#242424', lineHeight: 1.9 }}>
               {data.missingSections?.map((sec, i) => (
                 <li key={i}>{sec.name}</li>
               ))}
             </ul>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button
               onClick={() => setActiveTab('intake')}
-              style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}
+              style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
             >
               Return to Profile
             </button>
             <button
               onClick={goToDashboard}
-              style={{ border: '1px solid #E5E7EB', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#242424' }}
+              style={{ border: '1px solid #6B7280', borderRadius: 6, padding: '8px 20px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#6B7280' }}
             >
               Return to Dashboard
             </button>
@@ -485,7 +503,7 @@ export default function MatchmakingTab({ applicant }) {
           <div style={{ fontSize: 48, color: '#9CA3AF', marginBottom: 12 }}>🏠?</div>
           <h4 style={{ margin: '0 0 8px', fontWeight: 700, color: '#242424' }}>No hosts available</h4>
           <p style={{ margin: '0 0 16px', fontSize: 14, color: '#7C7C7C' }}>There are currently no verified hosts available in the system.</p>
-          <div style={{ backgroundColor: '#E7F1FD', border: '1px solid #008BF5', borderRadius: 6, padding: 14, marginBottom: 16, textAlign: 'left', maxWidth: 480, margin: '0 auto 16px' }}>
+          <div style={{ backgroundColor: '#E7F1FD', border: '1px solid #008BF5', borderRadius: 6, padding: 14, marginBottom: 16, textAlign: 'left', maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
             <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700, color: '#008BF5' }}>This may mean:</p>
             <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: '#242424', lineHeight: 1.8 }}>
               <li>All current hosts are actively placed</li>
@@ -526,16 +544,16 @@ export default function MatchmakingTab({ applicant }) {
           </>
         ) : (
           <>
-            <p style={{ margin: '0 0 8px', fontSize: 14, color: '#DC2626', fontWeight: 600 }}>
-              You are confirming a match with flagged criteria.
+            <p style={{ margin: '0 0 12px', fontSize: 14, color: '#7C7C7C' }}>
+              This match has incompatible criteria flagged. To proceed, document your reasoning in writing. This override will be logged.
             </p>
-            <p style={{ margin: '0 0 12px', fontSize: 13, color: '#7C7C7C' }}>
-              Please explain your decision (minimum 20 characters). This is required and logged for program records.
-            </p>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#242424', marginBottom: 6 }}>
+              Reason for override (required):
+            </label>
             <textarea
               value={overrideNote}
               onChange={e => setOverrideNote(e.target.value)}
-              placeholder="Explain why you are proceeding despite the flagged criteria..."
+              placeholder="Explain why this match is being approved despite flagged criteria..."
               maxLength={500}
               style={{ width: '100%', minHeight: 100, border: '1px solid #E5E7EB', borderRadius: 6, padding: 10, fontSize: 13, resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
             />
@@ -559,7 +577,7 @@ export default function MatchmakingTab({ applicant }) {
   );
 }
 
-function Header({ applicantList, selectedGuestId, onChange, selectedGuest }) {
+function Header({ applicantList, selectedGuestId, onChange }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
       <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#242424' }}>Matchmaking</h3>
