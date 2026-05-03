@@ -3,10 +3,12 @@ import Avatar from './Avatar';
 
 const dotColors = {
   compatible:   '#1A7F37',
-  concern:      '#D69E2E',
+  concern:      '#F59E0B',
   incompatible: '#DC2626',
   insufficient: '#9CA3AF'
 };
+
+const flagIcon = { red: '🔴', amber: '🟡', gray: '⬜' };
 
 const criteriaOrder = [
   ['lgbtq', 'dietary', 'substance'],
@@ -38,8 +40,8 @@ function CriteriaDot({ status, label, tooltip }) {
   );
 }
 
-function ScoreRing({ score }) {
-  const color = score >= 75 ? '#1A7F37' : score >= 50 ? '#D69E2E' : '#DC2626';
+function ScoreRing({ score, matchType }) {
+  const color = matchType === 'allRedFlags' ? '#DC2626' : score >= 90 ? '#1A7F37' : '#F59E0B';
   return (
     <div style={{
       width: 56, height: 56, borderRadius: '50%',
@@ -52,7 +54,7 @@ function ScoreRing({ score }) {
   );
 }
 
-export default function MatchCard({ match, onProceed, onSkip }) {
+export default function MatchCard({ match, matchType, onProceed, onSkip }) {
   const [flagsExpanded, setFlagsExpanded] = useState(false);
 
   const hasRedFlags = match.flags.some(f => f.color === 'red');
@@ -62,17 +64,17 @@ export default function MatchCard({ match, onProceed, onSkip }) {
     ? { bg: '#FEE2E2', text: '#DC2626' }
     : { bg: '#FEF3C7', text: '#92400E' };
 
-  const flagDotColor = { red: '#DC2626', amber: '#D69E2E', gray: '#9CA3AF' };
+  const avatarColor = match.avatarColor || (match.score >= 90 ? '#1A7F37' : match.score >= 70 ? '#F59E0B' : '#7C3AED');
 
   return (
-    <div style={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: 6, padding: 16, marginBottom: 16 }}>
+    <div style={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: 6, padding: 24, marginBottom: 16 }}>
       {/* Top row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Avatar initials={match.initials} color={match.score >= 75 ? '#1A7F37' : match.score >= 50 ? '#D69E2E' : '#DC2626'} size={40} />
+          <Avatar initials={match.initials} color={avatarColor} size={40} />
           <span style={{ fontWeight: 700, fontSize: 16, color: '#242424' }}>{match.name}</span>
         </div>
-        <ScoreRing score={match.score} />
+        <ScoreRing score={match.score} matchType={matchType} />
       </div>
 
       {/* Explanation */}
@@ -113,12 +115,12 @@ export default function MatchCard({ match, onProceed, onSkip }) {
               {match.flags.map((flag, i) => (
                 <div key={i}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: flagDotColor[flag.color] || '#9CA3AF', flexShrink: 0 }} />
+                    <span style={{ flexShrink: 0, fontSize: 12 }}>{flagIcon[flag.color] || '⬜'}</span>
                     <span style={{ fontWeight: 700, fontSize: 13, color: '#242424' }}>{flag.criteria}</span>
                     <span style={{ fontSize: 12, color: '#7C7C7C' }}>— {flag.level}</span>
                   </div>
-                  <p style={{ margin: '0 0 4px 16px', fontSize: 13, color: '#242424', lineHeight: 1.5 }}>{flag.explanation}</p>
-                  <p style={{ margin: '0 0 8px 16px', fontSize: 11, color: '#9CA3AF' }}>Source: {flag.source}</p>
+                  <p style={{ margin: '0 0 4px 20px', fontSize: 13, color: '#242424', lineHeight: 1.5 }}>{flag.explanation}</p>
+                  <p style={{ margin: '0 0 8px 20px', fontSize: 11, color: '#9CA3AF' }}>Source: {flag.source}</p>
                   {i < match.flags.length - 1 && <div style={{ borderBottom: '1px solid #E5E7EB', marginBottom: 8 }} />}
                 </div>
               ))}
@@ -128,18 +130,18 @@ export default function MatchCard({ match, onProceed, onSkip }) {
       )}
 
       {/* Actions */}
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button
-          onClick={() => onProceed(match)}
-          style={{ flex: 1, backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 0', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
-        >
-          Proceed with Match
-        </button>
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
         <button
           onClick={() => onSkip(match.id)}
-          style={{ backgroundColor: '#fff', color: '#242424', border: '1px solid #E5E7EB', borderRadius: 6, padding: '8px 20px', fontSize: 14, cursor: 'pointer' }}
+          style={{ backgroundColor: '#fff', color: '#008BF5', border: '1px solid #008BF5', borderRadius: 6, padding: '8px 20px', fontSize: 14, cursor: 'pointer' }}
         >
           Skip
+        </button>
+        <button
+          onClick={() => onProceed(match)}
+          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+        >
+          Proceed with Match
         </button>
       </div>
     </div>

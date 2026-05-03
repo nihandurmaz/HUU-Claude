@@ -399,39 +399,47 @@ export const matchData = {
     matches: [
       {
         id: "h_o1",
-        name: "The Nakamura Family",
-        initials: "NK",
-        score: 72,
-        explanation: "The Nakamura family is LGBTQ+-affirming with a welcoming household environment. Their availability and profile align with several of Olivia's placement preferences, though some details could not be fully verified.",
+        name: "Roberto & Elena Gomez",
+        initials: "RG",
+        avatarColor: "#008BF5",
+        score: 86,
+        explanation: "Roberto and Elena have extensive hosting experience and a culturally diverse household. Their home is LGBTQ+-affirming and alcohol-free. Note: there is a dog in the home — confirm Olivia has no allergies.",
         criteria: {
           lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
-          dietary: { status: "concern", label: "Dietary Needs" },
+          dietary: { status: "compatible", label: "Dietary Needs" },
           substance: { status: "compatible", label: "Substance Use" },
           mental: { status: "compatible", label: "Mental Health" },
           cultural: { status: "compatible", label: "Cultural Background" },
-          struggles: { status: "insufficient", label: "Past Struggles" },
-          capacity: { status: "compatible", label: "Hosting Capacity" },
-          pets: { status: "compatible", label: "Pets" },
+          struggles: { status: "compatible", label: "Past Struggles" },
+          capacity: { status: "concern", label: "Hosting Capacity" },
+          pets: { status: "concern", label: "Pets" },
           parenting: { status: "insufficient", label: "Parenting Youth" }
         },
         flags: [
           {
             color: "amber",
-            criteria: "Dietary Needs",
+            criteria: "Hosting Capacity",
             level: "Potential concern",
-            explanation: "Olivia's dietary requirements were not fully captured in her intake profile.",
-            source: "Interest as a Guest — dietary requirements"
+            explanation: "Roberto and Elena currently have teenage children at home. Confirm that hosting capacity and household dynamics are suitable for Olivia's placement.",
+            source: "Host Interest — number of youth / household members"
+          },
+          {
+            color: "amber",
+            criteria: "Pets",
+            level: "Potential concern",
+            explanation: "The Gomez household has a dog. Olivia's allergy status should be confirmed before proceeding.",
+            source: "Host basic info — pets in household / Guest allergies"
           }
         ],
         tooltips: {
           lgbtq: "Based on: Host Interest — LGBTQ+ affirmation confirmed",
-          dietary: "Based on: Interest as a Guest — dietary section partially completed",
-          substance: "Based on: Substance Use — no conflicts identified",
+          dietary: "Based on: Interest as a Guest — no dietary conflicts identified",
+          substance: "Based on: Substance Use — alcohol-free household confirmed",
           mental: "Based on: Host Background — no concerns noted",
-          cultural: "Based on: Background — compatible cultural environment",
-          struggles: "Based on: Host Interest — data not available",
-          capacity: "Based on: Host Interest — full-time and respite available",
-          pets: "Based on: Host basic info — no pets",
+          cultural: "Based on: Background — culturally diverse, compatible background",
+          struggles: "Based on: Host Interest — extensive hosting experience",
+          capacity: "Based on: Host Interest — household has teenage children, confirm capacity",
+          pets: "Based on: Host basic info — dog in household",
           parenting: "Based on: Host Interest — not specified"
         }
       }
@@ -445,6 +453,7 @@ export const matchData = {
         id: "h_m1",
         name: "James & Linda Park",
         initials: "JP",
+        avatarColor: "#6366F1",
         score: 58,
         explanation: "James and Linda have strong hosting experience, but their household has a strict no-smoking policy which conflicts with Marcus's profile.",
         criteria: {
@@ -490,6 +499,7 @@ export const matchData = {
         id: "h_m2",
         name: "Sarah & Tom W.",
         initials: "ST",
+        avatarColor: "#F59E0B",
         score: 52,
         explanation: "Sarah and Tom are experienced hosts. However, dietary accommodations and LGBTQ+ affirmation could not be confirmed.",
         criteria: {
@@ -535,6 +545,7 @@ export const matchData = {
         id: "h_m3",
         name: "The Okonkwo Family",
         initials: "OK",
+        avatarColor: "#7C3AED",
         score: 48,
         explanation: "The Okonkwo family has hosting capacity and community experience. Substance use policies and mental health support remain unverified.",
         criteria: {
@@ -601,10 +612,11 @@ export const matchData = {
     matches: [
       {
         id: "g_n1",
-        name: "Alex Rivera",
-        initials: "AR",
+        name: "Sophia Johnson",
+        initials: "SJ",
+        avatarColor: "#008BF5",
         score: 88,
-        explanation: "Alex's profile aligns well with Noah's household environment. Alex is seeking a full-time placement in a culturally affirming home and has indicated a willingness to participate in weekly check-ins.",
+        explanation: "Sophia's profile aligns well with Noah's household environment. She is seeking a full-time placement in a culturally affirming home and has indicated willingness to participate in weekly check-ins.",
         criteria: {
           lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
           dietary: { status: "compatible", label: "Dietary Needs" },
@@ -631,10 +643,11 @@ export const matchData = {
       },
       {
         id: "g_n2",
-        name: "Jordan Kim",
-        initials: "JK",
-        score: 76,
-        explanation: "Jordan is seeking a structured placement with experienced hosts. Noah's household and prior hosting background align with Jordan's case plan goals.",
+        name: "Tyler Chen",
+        initials: "TC",
+        avatarColor: "#008BF5",
+        score: 72,
+        explanation: "Tyler is seeking a structured placement with experienced hosts. Noah's household and prior hosting background align with Tyler's case plan goals.",
         criteria: {
           lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
           dietary: { status: "concern", label: "Dietary Needs" },
@@ -651,7 +664,7 @@ export const matchData = {
             color: "amber",
             criteria: "Dietary Needs",
             level: "Potential concern",
-            explanation: "Jordan's dietary preferences were not fully captured in their intake profile.",
+            explanation: "Tyler's dietary preferences were not fully captured in their intake profile.",
             source: "Interest as a Guest — dietary requirements"
           },
           {
@@ -676,10 +689,11 @@ export const matchData = {
       },
       {
         id: "g_n3",
-        name: "Sam Patel",
-        initials: "SP",
-        score: 63,
-        explanation: "Sam has relevant case plan goals that align with Noah's hosting style. Some household compatibility details could not be fully verified from Sam's profile.",
+        name: "Jameson Jack",
+        initials: "JJ",
+        avatarColor: "#008BF5",
+        score: 65,
+        explanation: "Jameson has relevant case plan goals that align with Noah's hosting style. Some household compatibility details could not be fully verified from Jameson's profile.",
         criteria: {
           lgbtq: { status: "compatible", label: "LGBTQ+ Safety" },
           dietary: { status: "concern", label: "Dietary Needs" },
@@ -696,21 +710,21 @@ export const matchData = {
             color: "amber",
             criteria: "Dietary Needs",
             level: "Potential concern",
-            explanation: "Sam's dietary requirements need follow-up confirmation.",
+            explanation: "Jameson's dietary requirements need follow-up confirmation.",
             source: "Interest as a Guest — dietary requirements"
           },
           {
             color: "amber",
             criteria: "Substance Use",
             level: "Potential concern",
-            explanation: "Sam's agreement to household substance use policies was not fully confirmed.",
+            explanation: "Jameson's agreement to household substance use policies was not fully confirmed.",
             source: "Substance Use — host household policies"
           },
           {
             color: "amber",
             criteria: "Pets",
             level: "Potential concern",
-            explanation: "Sam's allergy status with regard to pets should be confirmed.",
+            explanation: "Jameson's allergy status with regard to pets should be confirmed.",
             source: "Host basic info — pets in household"
           }
         ],
@@ -737,6 +751,7 @@ export const matchData = {
         id: "ig_h1",
         name: "The Nakamura Family",
         initials: "NK",
+        avatarColor: "#1A7F37",
         score: 91,
         explanation: "The Nakamura family is LGBTQ+-affirming and has hosted youth from diverse backgrounds before. Their household is alcohol-free which aligns with Isabella's substance use preferences.",
         criteria: {
@@ -750,7 +765,15 @@ export const matchData = {
           pets: { status: "compatible", label: "Pets" },
           parenting: { status: "insufficient", label: "Parenting Youth" }
         },
-        flags: [],
+        flags: [
+          {
+            color: "amber",
+            criteria: "Mental Health",
+            level: "Potential concern",
+            explanation: "Some mental health-related information was provided in the Nakamura household background, but warrants coordinator follow-up before finalizing placement.",
+            source: "Host Background section — mental health concerns in household"
+          }
+        ],
         tooltips: {
           lgbtq: "Based on: Host Interest section — comfort with LGBTQ+ youth and gender identity",
           dietary: "Based on: Interest as a Guest — dietary requirements and allergies",
@@ -767,6 +790,7 @@ export const matchData = {
         id: "ig_h2",
         name: "Patricia Moore",
         initials: "PM",
+        avatarColor: "#F59E0B",
         score: 74,
         explanation: "Patricia shares a similar cultural background and is bilingual in English and Spanish, which may provide additional comfort for Isabella. Her household policies align well with the placement requirements.",
         criteria: {
@@ -812,6 +836,7 @@ export const matchData = {
         id: "ig_h3",
         name: "Sandra & David Kim",
         initials: "SK",
+        avatarColor: "#6366F1",
         score: 68,
         explanation: "Sandra and David have relevant hosting experience and an affirming household. Some lifestyle compatibility details could not be fully verified from the available profile data.",
         criteria: {
@@ -876,16 +901,20 @@ export const matchData = {
     matches: [],
     missingSections: [
       {
-        name: "LGBTQ+ Affirmation Confirmation",
-        reason: "Required for matching with LGBTQ+-identifying guests"
-      },
-      {
-        name: "Substance Use & Household Policies",
+        name: "Substance Use household policies",
         reason: "Critical for determining compatibility with guest profiles"
       },
       {
-        name: "Dietary Accommodation Capacity",
-        reason: "Needed to match with guests with specific dietary requirements"
+        name: "Pets in household",
+        reason: "Needed to match with guests who have pet allergies or preferences"
+      },
+      {
+        name: "LGBTQ+ affirmation declaration",
+        reason: "Required for matching with LGBTQ+-identifying guests"
+      },
+      {
+        name: "Past hosting experience",
+        reason: "Helps assess suitability for complex placements"
       }
     ]
   }
