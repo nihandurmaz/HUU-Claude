@@ -918,6 +918,7 @@ export const hostGallery = [
     id: "hg1",
     name: "Sandra & David Kim",
     initials: "SK",
+    avatarColor: "#6366F1",
     summary: "Married couple, no children at home, LGBTQ+-affirming with experience hosting diverse youth. Sober household available full-time 3-6 months.",
     signals: {
       lgbtq: true,
@@ -930,6 +931,7 @@ export const hostGallery = [
     id: "hg2",
     name: "Patricia Moore",
     initials: "PM",
+    avatarColor: "#F59E0B",
     summary: "Single woman, bilingual English/Spanish, comfortable with LGBTQ+ youth. No substances in home, available for full-time hosting.",
     signals: {
       lgbtq: true,
@@ -942,6 +944,7 @@ export const hostGallery = [
     id: "hg3",
     name: "Roberto & Elena Gomez",
     initials: "RG",
+    avatarColor: "#008BF5",
     summary: "Married couple with teenage children, extensive host experience, culturally diverse household. Dog in home — confirm guest allergies.",
     signals: {
       lgbtq: true,
@@ -954,6 +957,7 @@ export const hostGallery = [
     id: "hg4",
     name: "The Nakamura Family",
     initials: "NK",
+    avatarColor: "#1A7F37",
     summary: "Family of three, LGBTQ+-affirming, alcohol-free household. Previous hosting experience with at-risk youth, available full-time and respite.",
     signals: {
       lgbtq: true,
@@ -966,6 +970,7 @@ export const hostGallery = [
     id: "hg5",
     name: "James & Linda Park",
     initials: "JP",
+    avatarColor: "#6366F1",
     summary: "Married couple, semi-retired, spacious home with private room. No-smoking household. LGBTQ+ affirmation not confirmed — coordinator follow-up recommended.",
     signals: {
       lgbtq: null,

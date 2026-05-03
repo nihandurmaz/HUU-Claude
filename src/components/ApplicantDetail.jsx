@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, FileText, Lock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { applicants } from '../data/applicants';
 import { useApp } from '../context/AppContext';
 import Avatar from './Avatar';
@@ -13,7 +12,6 @@ import RelationshipManagementTab from './tabs/RelationshipManagementTab';
 
 export default function ApplicantDetail() {
   const { selectedApplicantId, goToDashboard, selectApplicant, activeTab, setActiveTab, showNotesPanel, setShowNotesPanel, intakeStates } = useApp();
-  const [lockedMessage, setLockedMessage] = useState(null);
 
   const applicant = applicants.find(a => a.id === selectedApplicantId);
   if (!applicant) return null;
@@ -26,26 +24,7 @@ export default function ApplicantDetail() {
     : intakeStates[applicant.id] === 'approved' ? 'Intake profile approved'
     : applicant.status;
 
-  const handleLockedClick = (tabLabel) => {
-    setLockedMessage(tabLabel);
-    // Clear after active tab change via sidebar
-  };
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    setLockedMessage(null);
-  };
-
   const renderContent = () => {
-    if (lockedMessage) {
-      return (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 12, padding: 40, textAlign: 'center' }}>
-          <Lock size={48} style={{ color: '#9CA3AF' }} />
-          <p style={{ fontWeight: 600, color: '#242424', margin: 0, fontSize: 16 }}>This section is locked.</p>
-          <p style={{ margin: 0, fontSize: 14, color: '#7C7C7C' }}>Complete the previous step to unlock.</p>
-        </div>
-      );
-    }
     switch (activeTab) {
       case 'intake': return <IntakeProfileTab applicant={applicant} />;
       case 'onboarding': return <OnboardingEventsTab applicant={applicant} />;
@@ -116,17 +95,14 @@ export default function ApplicantDetail() {
 
       {/* Body: sidebar + content */}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <Sidebar
-          applicant={applicant}
-          onLockedClick={(label) => { setLockedMessage(label); }}
-        />
+        <Sidebar applicant={applicant} />
         <div style={{ flex: 1, display: 'flex', overflowY: 'auto', backgroundColor: '#fff' }}>
           {renderContent()}
         </div>
       </div>
 
       {/* Notes panel */}
-      {showNotesPanel && <NotesPanel applicantId={applicant.id} />}
+      {showNotesPanel && <NotesPanel applicantId={applicant.id} applicantName={applicant.name} />}
     </div>
   );
 }

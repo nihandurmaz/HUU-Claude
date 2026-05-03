@@ -19,7 +19,7 @@ export default function Toast({ message, type = 'info', onDismiss }) {
     <div
       style={{
         backgroundColor: s.bg,
-        border: `1px solid ${s.border}`,
+        borderLeft: `4px solid ${s.border}`,
         color: s.text,
         padding: '12px 16px',
         borderRadius: 6,

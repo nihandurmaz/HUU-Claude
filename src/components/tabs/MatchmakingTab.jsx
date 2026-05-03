@@ -117,7 +117,7 @@ function ViewAllHostsLink({ onClick }) {
 }
 
 export default function MatchmakingTab({ applicant }) {
-  const { setActiveTab, setShowHostGallery, confirmMatch, addNote, showToast, matchedPairs, getSidebarLocks, goToDashboard } = useApp();
+  const { setActiveTab, openHostGallery, confirmMatch, addNote, showToast, matchedPairs, getSidebarLocks, goToDashboard } = useApp();
 
   const applicantList = useApplicantList();
   const [selectedGuestId, setSelectedGuestId] = useState(applicant.id);
@@ -303,7 +303,7 @@ export default function MatchmakingTab({ applicant }) {
               </div>
             </div>
           ))}
-          <ViewAllHostsLink onClick={() => setShowHostGallery(true)} />
+          <ViewAllHostsLink onClick={() => openHostGallery(selectedGuest.name)} />
         </>
       )}
 
@@ -312,7 +312,7 @@ export default function MatchmakingTab({ applicant }) {
         <div style={{ textAlign: 'center', padding: 32, color: '#7C7C7C' }}>
           <p style={{ fontSize: 14, marginBottom: 16 }}>You have reviewed all suggested matches.</p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
+            <button onClick={() => openHostGallery(selectedGuest.name)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               View All Hosts Manually
             </button>
             <button onClick={() => { setVisibleCards(null); setSkippedOnly(false); setAiState('idle'); setVisibleStepCount(0); }} style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
@@ -338,7 +338,7 @@ export default function MatchmakingTab({ applicant }) {
               >
                 Re-run AI Matching
               </button>
-              <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '8px 20px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
+              <button onClick={() => openHostGallery(selectedGuest.name)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '8px 20px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
                 View All Hosts Manually
               </button>
             </div>
@@ -373,14 +373,14 @@ export default function MatchmakingTab({ applicant }) {
           {visibleMatches.map(match => (
             <MatchCard key={match.id} match={match} matchType={data.type} onProceed={handleProceed} onSkip={handleSkip} />
           ))}
-          <ViewAllHostsLink onClick={() => setShowHostGallery(true)} />
+          <ViewAllHostsLink onClick={() => openHostGallery(selectedGuest.name)} />
         </>
       )}
       {aiState === 'complete' && data.type === 'singleMatch' && showSingleSkipped && (
         <div style={{ textAlign: 'center', padding: 32, color: '#7C7C7C' }}>
           <p style={{ fontSize: 14, marginBottom: 12 }}>You've skipped the only available match.</p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
+            <button onClick={() => openHostGallery(selectedGuest.name)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               View All Hosts Manually
             </button>
             <button onClick={() => { setShowSingleSkipped(false); setVisibleCards(data.matches.map(m => m.id)); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#008BF5' }}>
@@ -403,7 +403,7 @@ export default function MatchmakingTab({ applicant }) {
             </div>
           ))}
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8 }}>
-            <button onClick={() => setShowHostGallery(true)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
+            <button onClick={() => openHostGallery(selectedGuest.name)} style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}>
               View All Hosts Manually
             </button>
             <button onClick={goToDashboard} style={{ border: '1px solid #6B7280', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#6B7280' }}>

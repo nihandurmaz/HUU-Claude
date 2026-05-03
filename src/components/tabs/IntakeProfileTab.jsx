@@ -121,6 +121,13 @@ export default function IntakeProfileTab({ applicant }) {
         )}
       </div>
 
+      {/* In review banner */}
+      {state === 'inReview' && (
+        <div style={{ backgroundColor: '#FEF3C7', borderLeft: '3px solid #92400E', borderRadius: 6, padding: '12px 16px', marginBottom: 16 }}>
+          <p style={{ margin: 0, fontWeight: 600, fontSize: 13, color: '#92400E' }}>📋 Intake under review</p>
+        </div>
+      )}
+
       {/* Resubmitted banner */}
       {state === 'resubmitted' && (
         <div style={{ backgroundColor: '#F3E8FF', border: '1px solid #7C3AED', borderRadius: 6, padding: 16, marginBottom: 16 }}>
@@ -133,16 +140,17 @@ export default function IntakeProfileTab({ applicant }) {
 
       {/* Info requested banner */}
       {state === 'infoRequested' && (
-        <div style={{ backgroundColor: '#F5F5F5', border: '1px solid #E5E7EB', borderRadius: 6, padding: '12px 16px', marginBottom: 16, fontSize: 13, color: '#7C7C7C' }}>
-          <strong>Feedback:</strong> More information is needed in Employment Information and Substance Use
+        <div style={{ backgroundColor: '#FEF3C7', borderLeft: '3px solid #92400E', borderRadius: 6, padding: '12px 16px', marginBottom: 16 }}>
+          <p style={{ margin: '0 0 4px', fontWeight: 600, fontSize: 13, color: '#92400E' }}>📤 Information requested</p>
+          <p style={{ margin: 0, fontSize: 13, color: '#92400E' }}>More information has been requested from {applicant.name}. Awaiting applicant response.</p>
         </div>
       )}
 
       {/* Approved banner */}
       {state === 'approved' && (
-        <div style={{ backgroundColor: '#F0FDF4', border: '1px solid #1A7F37', borderRadius: 6, padding: '14px 16px', marginBottom: 20 }}>
+        <div style={{ backgroundColor: '#F0FDF4', borderLeft: '3px solid #1A7F37', border: '1px solid #E5E7EB', borderRadius: 6, padding: '14px 16px', marginBottom: 20 }}>
           <p style={{ margin: '0 0 6px', color: '#1A7F37', fontWeight: 600, fontSize: 13 }}>
-            ✅ {applicant.name}'s intake profile has been approved. You can now proceed to Onboarding Events.
+            ✅ Intake profile approved on 1st Sep 2025
           </p>
           <button
             onClick={() => setActiveTab('onboarding')}

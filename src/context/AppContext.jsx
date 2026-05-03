@@ -9,6 +9,7 @@ export function AppContextProvider({ children }) {
   const [notes, setNotes] = useState({});
   const [showNotesPanel, setShowNotesPanel] = useState(false);
   const [showHostGallery, setShowHostGallery] = useState(false);
+  const [galleryGuestName, setGalleryGuestName] = useState('');
   const [toasts, setToasts] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
 
@@ -22,11 +23,17 @@ export function AppContextProvider({ children }) {
   // Track sidebar lock overrides (runtime unlocks from approvals etc.)
   const [sidebarLockOverrides, setSidebarLockOverrides] = useState({});
 
+  const openHostGallery = useCallback((guestName) => {
+    setShowHostGallery(true);
+    setGalleryGuestName(guestName || '');
+  }, []);
+
   const selectApplicant = useCallback((id) => {
     setSelectedApplicantId(id);
     setActiveTab('intake');
     setShowNotesPanel(false);
     setShowHostGallery(false);
+    setGalleryGuestName('');
   }, []);
 
   const goToDashboard = useCallback(() => {
@@ -34,6 +41,7 @@ export function AppContextProvider({ children }) {
     setActiveTab('intake');
     setShowNotesPanel(false);
     setShowHostGallery(false);
+    setGalleryGuestName('');
   }, []);
 
   const addNote = useCallback((applicantId, text) => {
@@ -115,6 +123,7 @@ export function AppContextProvider({ children }) {
       matchedPairs,
       showNotesPanel,
       showHostGallery,
+      galleryGuestName,
       toasts,
       sidebarLockOverrides,
       selectApplicant,
@@ -130,6 +139,7 @@ export function AppContextProvider({ children }) {
       dismissToast,
       setShowNotesPanel,
       setShowHostGallery,
+      openHostGallery,
       getSidebarLocks
     }}>
       {children}

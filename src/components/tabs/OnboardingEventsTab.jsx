@@ -36,6 +36,12 @@ function getPreloadedData(applicant) {
         event2: { state: 'scheduled', date: '08/20/2025', time: '10:00', format: 'In-person' }
       };
     }
+    if (id === 10) {
+      return {
+        event1: { state: 'completed', date: '08/05/2025', time: '14:00', format: 'Video call', completedDate: '08/05/2025', completedTime: '2:00 PM' },
+        event2: { state: 'notScheduled' }
+      };
+    }
     return { event1: { state: 'notScheduled' }, event2: { state: 'notScheduled' } };
   }
   return { event1: { state: 'notScheduled' }, event2: { state: 'notScheduled' } };

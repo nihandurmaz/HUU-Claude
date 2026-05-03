@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { FileText, Calendar, Users, HeartHandshake, Lock, ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -8,9 +9,16 @@ const tabs = [
   { key: 'relationship', label: 'Relationship Management', icon: HeartHandshake }
 ];
 
-export default function Sidebar({ applicant, onLockedClick }) {
+const lockedMessages = {
+  onboarding:   'Approve the intake profile to unlock Onboarding Events.',
+  matchmaking:  'Complete onboarding events to unlock Matchmaking.',
+  relationship: 'Confirm a match in Matchmaking to unlock Relationship Management.'
+};
+
+export default function Sidebar({ applicant }) {
   const { activeTab, setActiveTab, getSidebarLocks } = useApp();
   const locks = getSidebarLocks(applicant.id);
+  const [lockedMsgKey, setLockedMsgKey] = useState(null);
 
   return (
     <div style={{ width: 260, flexShrink: 0, backgroundColor: '#fff', borderRight: '1px solid #E5E7EB', paddingTop: 8 }}>
@@ -20,41 +28,51 @@ export default function Sidebar({ applicant, onLockedClick }) {
 
         const handleClick = () => {
           if (locked) {
-            onLockedClick(label);
+            setLockedMsgKey(prev => prev === key ? null : key);
           } else {
             setActiveTab(key);
+            setLockedMsgKey(null);
           }
         };
 
         return (
-          <button
-            key={key}
-            onClick={handleClick}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '12px 16px', border: 'none', cursor: locked ? 'not-allowed' : 'pointer',
-              textAlign: 'left', backgroundColor: active ? '#E7F1FD' : 'transparent',
-              borderLeft: active ? '3px solid #008BF5' : '3px solid transparent',
-              transition: 'background 0.15s'
-            }}
-            onMouseEnter={e => { if (!active && !locked) e.currentTarget.style.backgroundColor = '#F3F4F6'; }}
-            onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = locked ? 'transparent' : 'transparent'; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Icon size={18} style={{ color: locked ? '#9CA3AF' : active ? '#008BF5' : '#7C7C7C' }} />
-              <span style={{
-                fontSize: 14,
-                fontWeight: active ? 600 : 400,
-                color: locked ? '#9CA3AF' : active ? '#242424' : '#242424'
-              }}>
-                {label}
-              </span>
-            </div>
-            {locked
-              ? <Lock size={14} style={{ color: '#9CA3AF' }} />
-              : active ? <ChevronRight size={14} style={{ color: '#008BF5' }} /> : null
-            }
-          </button>
+          <div key={key}>
+            <button
+              onClick={handleClick}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '12px 16px', border: 'none', cursor: locked ? 'default' : 'pointer',
+                textAlign: 'left', backgroundColor: active ? '#E7F1FD' : 'transparent',
+                borderLeft: active ? '3px solid #008BF5' : '3px solid transparent',
+                transition: 'background 0.15s'
+              }}
+              onMouseEnter={e => { if (!active && !locked) e.currentTarget.style.backgroundColor = '#F3F4F6'; }}
+              onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Icon size={18} style={{ color: locked ? '#9CA3AF' : active ? '#008BF5' : '#7C7C7C' }} />
+                <span style={{
+                  fontSize: 14,
+                  fontWeight: active ? 600 : 400,
+                  color: locked ? '#9CA3AF' : '#242424'
+                }}>
+                  {label}
+                </span>
+              </div>
+              {locked
+                ? <Lock size={14} style={{ color: '#9CA3AF' }} />
+                : active ? <ChevronRight size={14} style={{ color: '#008BF5' }} /> : null
+              }
+            </button>
+
+            {locked && lockedMsgKey === key && (
+              <div style={{ padding: '6px 16px 10px 44px', backgroundColor: '#FAFAFA', borderBottom: '1px solid #F3F4F6' }}>
+                <p style={{ margin: 0, fontSize: 12, color: '#7C7C7C', lineHeight: 1.5 }}>
+                  {lockedMessages[key]}
+                </p>
+              </div>
+            )}
+          </div>
         );
       })}
     </div>
