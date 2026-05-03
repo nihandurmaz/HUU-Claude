@@ -43,25 +43,25 @@ export default function Sidebar({ applicant }) {
                 width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 padding: '12px 16px', border: 'none', cursor: locked ? 'default' : 'pointer',
                 textAlign: 'left', backgroundColor: active ? '#E7F1FD' : 'transparent',
-                borderLeft: active ? '3px solid #008BF5' : '3px solid transparent',
+                borderLeft: active ? '3px solid #0066B8' : '3px solid transparent',
                 transition: 'background 0.15s'
               }}
               onMouseEnter={e => { if (!active && !locked) e.currentTarget.style.backgroundColor = '#F3F4F6'; }}
               onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Icon size={18} style={{ color: locked ? '#9CA3AF' : active ? '#008BF5' : '#7C7C7C' }} />
+                <Icon size={18} style={{ color: locked ? '#9CA3AF' : active ? '#0066B8' : '#7C7C7C' }} />
                 <span style={{
                   fontSize: 14,
                   fontWeight: active ? 600 : 400,
-                  color: locked ? '#9CA3AF' : '#242424'
+                  color: locked ? '#6B7280' : '#242424'
                 }}>
                   {label}
                 </span>
               </div>
               {locked
                 ? <Lock size={14} style={{ color: '#9CA3AF' }} />
-                : active ? <ChevronRight size={14} style={{ color: '#008BF5' }} /> : null
+                : active ? <ChevronRight size={14} style={{ color: '#0066B8' }} /> : null
               }
             </button>
 

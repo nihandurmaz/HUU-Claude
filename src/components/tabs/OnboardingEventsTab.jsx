@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lock } from 'lucide-react';
+import { Lock, CheckCircle } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import OnboardingEventCard from '../OnboardingEventCard';
 
@@ -142,13 +142,14 @@ export default function OnboardingEventsTab({ applicant }) {
       </div>
 
       {bothDone && (
-        <div style={{ backgroundColor: '#F0FDF4', border: '1px solid #1A7F37', borderRadius: 6, padding: '14px 16px', marginTop: 8 }}>
-          <p style={{ margin: '0 0 6px', color: '#1A7F37', fontWeight: 600, fontSize: 13 }}>
-            ✅ All onboarding events completed. Matchmaking is now available.
-          </p>
+        <div style={{ backgroundColor: '#F9FAFB', borderLeft: '4px solid #1A7F37', border: '1px solid #E5E7EB', borderRadius: 6, padding: '16px 20px', marginTop: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <CheckCircle size={16} style={{ color: '#15803D', flexShrink: 0 }} />
+            <span style={{ fontWeight: 700, fontSize: 14, color: '#15803D', lineHeight: 1.4 }}>All onboarding events completed. Matchmaking is now available.</span>
+          </div>
           <button
             onClick={() => setActiveTab('matchmaking')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 13, fontWeight: 600, padding: 0 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 14, fontWeight: 600, padding: 0, textDecoration: 'underline' }}
           >
             Go to Matchmaking →
           </button>

@@ -61,8 +61,8 @@ export default function MatchCard({ match, matchType, onProceed, onSkip }) {
   const hasAnyFlags = match.flags.length > 0;
 
   const flagBannerStyle = hasRedFlags
-    ? { bg: '#FEE2E2', text: '#DC2626' }
-    : { bg: '#FEF3C7', text: '#92400E' };
+    ? { bg: '#F9FAFB', borderColor: '#DC2626', text: '#B91C1C' }
+    : { bg: '#F9FAFB', borderColor: '#D97706', text: '#92400E' };
 
   const avatarColor = match.avatarColor || (match.score >= 90 ? '#1A7F37' : match.score >= 70 ? '#F59E0B' : '#7C3AED');
 
@@ -103,7 +103,8 @@ export default function MatchCard({ match, matchType, onProceed, onSkip }) {
             onClick={() => setFlagsExpanded(e => !e)}
             style={{
               width: '100%', backgroundColor: flagBannerStyle.bg, color: flagBannerStyle.text,
-              border: 'none', borderRadius: 6, padding: '8px 12px', fontSize: 13, fontWeight: 600,
+              border: '1px solid #E5E7EB', borderLeft: `3px solid ${flagBannerStyle.borderColor}`,
+              borderRadius: 6, padding: '8px 12px', fontSize: 13, fontWeight: 600,
               cursor: 'pointer', textAlign: 'left', marginBottom: flagsExpanded ? 0 : 12
             }}
           >
@@ -133,13 +134,13 @@ export default function MatchCard({ match, matchType, onProceed, onSkip }) {
       <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
         <button
           onClick={() => onSkip(match.id)}
-          style={{ backgroundColor: '#fff', color: '#008BF5', border: '1px solid #008BF5', borderRadius: 6, padding: '8px 20px', fontSize: 14, cursor: 'pointer' }}
+          style={{ backgroundColor: '#fff', color: '#0066B8', border: '1px solid #0066B8', borderRadius: 6, padding: '8px 20px', fontSize: 14, cursor: 'pointer' }}
         >
           Skip
         </button>
         <button
           onClick={() => onProceed(match)}
-          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+          style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
         >
           Proceed with Match
         </button>

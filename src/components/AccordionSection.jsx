@@ -3,10 +3,10 @@ import { ChevronDown } from 'lucide-react';
 
 const badgeStyles = {
   amber:  { bg: '#FEF3C7', text: '#92400E' },
-  green:  { bg: '#F0FDF4', text: '#1A7F37' },
-  purple: { bg: '#F3E8FF', text: '#7C3AED' },
+  green:  { bg: '#F0FDF4', text: '#15803D' },
+  purple: { bg: '#F3E8FF', text: '#6B21A8' },
   gray:   { bg: '#F3F4F6', text: '#6B7280' },
-  red:    { bg: '#FEE2E2', text: '#DC2626' }
+  red:    { bg: '#FEE2E2', text: '#B91C1C' }
 };
 
 export default function AccordionSection({ title, badge, badgeType = 'gray', children, defaultOpen = false, icon }) {

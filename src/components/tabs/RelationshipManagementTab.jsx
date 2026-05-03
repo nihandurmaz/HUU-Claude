@@ -92,7 +92,7 @@ function MatchedView({ match, showToast }) {
         </p>
         <button
           onClick={() => setShowModal(true)}
-          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+          style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
         >
           Send Meeting Note
         </button>
@@ -119,7 +119,7 @@ function MatchedView({ match, showToast }) {
                 </p>
                 <button
                   onClick={() => setExpandedNoteId(expandedNoteId === note.id ? null : note.id)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 12, fontWeight: 600, padding: 0 }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 12, fontWeight: 600, padding: 0 }}
                 >
                   {expandedNoteId === note.id ? 'Hide' : 'View Full Message'}
                 </button>
@@ -132,7 +132,7 @@ function MatchedView({ match, showToast }) {
             ))}
             <button
               onClick={() => setShowModal(true)}
-              style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5', fontWeight: 600, marginTop: 4 }}
+              style={{ border: '1px solid #0066B8', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#0066B8', fontWeight: 600, marginTop: 4 }}
             >
               Send Another Note
             </button>
@@ -169,7 +169,7 @@ function MatchedView({ match, showToast }) {
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             onClick={() => setShowModal(false)}
-            style={{ flex: 1, border: '1px solid #008BF5', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
+            style={{ flex: 1, border: '1px solid #0066B8', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#0066B8' }}
           >
             Cancel
           </button>
@@ -177,7 +177,7 @@ function MatchedView({ match, showToast }) {
             onClick={handleSendNote}
             disabled={!noteText.trim()}
             style={{
-              flex: 1, backgroundColor: noteText.trim() ? '#008BF5' : '#9CA3AF',
+              flex: 1, backgroundColor: noteText.trim() ? '#0066B8' : '#9CA3AF',
               color: '#fff', border: 'none', borderRadius: 6, padding: '8px 0',
               fontSize: 13, fontWeight: 600, cursor: noteText.trim() ? 'pointer' : 'not-allowed'
             }}

@@ -11,7 +11,7 @@ function TypeBadge({ type }) {
   return (
     <span style={{
       backgroundColor: isHost ? '#F3E8FF' : '#E7F1FD',
-      color: isHost ? '#7C3AED' : '#008BF5',
+      color: isHost ? '#7C3AED' : '#0066B8',
       padding: '2px 10px', borderRadius: 999, fontSize: 12, fontWeight: 500
     }}>{type}</span>
   );
@@ -87,8 +87,8 @@ export default function Dashboard() {
   const SortIcon = ({ col }) => {
     if (sortCol !== col) return <ChevronDown size={12} style={{ color: '#9CA3AF' }} />;
     return sortDir === 'asc'
-      ? <ChevronUp size={12} style={{ color: '#008BF5' }} />
-      : <ChevronDown size={12} style={{ color: '#008BF5' }} />;
+      ? <ChevronUp size={12} style={{ color: '#0066B8' }} />
+      : <ChevronDown size={12} style={{ color: '#0066B8' }} />;
   };
 
   const ColHeader = ({ col, label }) => (
@@ -127,8 +127,8 @@ export default function Dashboard() {
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   padding: '8px 2px', fontSize: 14, fontWeight: activeFilter === tab ? 600 : 400,
-                  color: activeFilter === tab ? '#008BF5' : '#7C7C7C',
-                  borderBottom: activeFilter === tab ? '2px solid #008BF5' : '2px solid transparent',
+                  color: activeFilter === tab ? '#0066B8' : '#7C7C7C',
+                  borderBottom: activeFilter === tab ? '2px solid #0066B8' : '2px solid transparent',
                   marginBottom: -1
                 }}
               >
@@ -265,7 +265,7 @@ export default function Dashboard() {
               onClick={() => setPage(p)}
               style={{
                 border: '1px solid #E5E7EB', borderRadius: 6, padding: '6px 12px',
-                background: page === p ? '#008BF5' : '#fff',
+                background: page === p ? '#0066B8' : '#fff',
                 color: page === p ? '#fff' : '#242424',
                 fontWeight: page === p ? 600 : 400, cursor: 'pointer', fontSize: 13
               }}

@@ -28,7 +28,7 @@ function NoteCard({ note, applicantId }) {
         <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
           <button
             onClick={() => { editNote(applicantId, note.id, editText); setMode('view'); showToast('Note updated', 'success'); }}
-            style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 4, padding: '5px 12px', fontSize: 12, cursor: 'pointer', fontWeight: 600 }}
+            style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 4, padding: '5px 12px', fontSize: 12, cursor: 'pointer', fontWeight: 600 }}
           >
             Save Changes
           </button>
@@ -71,7 +71,7 @@ function NoteCard({ note, applicantId }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: 11, color: '#9CA3AF' }}>{note.coordinatorName} · {timeAgo(note.timestamp)}</span>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={() => setMode('edit')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#008BF5' }}>Edit</button>
+          <button onClick={() => setMode('edit')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#0066B8' }}>Edit</button>
           <button onClick={() => setMode('confirmDelete')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#DC2626' }}>Delete</button>
         </div>
       </div>
@@ -124,7 +124,7 @@ export default function NotesPanel({ applicantId, applicantName }) {
               <X size={18} />
             </button>
           </div>
-          <p style={{ margin: 0, fontSize: 11, color: '#9CA3AF' }}>
+          <p style={{ margin: 0, fontSize: 11, color: '#6B7280' }}>
             Only visible to coordinators. Never shown to applicants.
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function NotesPanel({ applicantId, applicantName }) {
               <button
                 onClick={handleSave}
                 style={{
-                  backgroundColor: '#008BF5', color: '#fff',
+                  backgroundColor: '#0066B8', color: '#fff',
                   border: 'none', borderRadius: 6, padding: '8px 16px', fontSize: 14,
                   fontWeight: 600, cursor: 'pointer'
                 }}
@@ -171,7 +171,7 @@ export default function NotesPanel({ applicantId, applicantName }) {
           {/* Notes list */}
           <div style={{ flex: 1 }}>
             {applicantNotes.length === 0 ? (
-              <p style={{ fontSize: 13, color: '#9CA3AF', textAlign: 'center', marginTop: 8 }}>
+              <p style={{ fontSize: 13, color: '#6B7280', textAlign: 'center', marginTop: 8 }}>
                 No notes yet for this applicant.
               </p>
             ) : (

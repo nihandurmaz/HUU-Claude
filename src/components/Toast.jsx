@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 const typeStyles = {
-  success: { bg: '#F0FDF4', border: '#1A7F37', text: '#1A7F37' },
-  error:   { bg: '#FEE2E2', border: '#DC2626', text: '#DC2626' },
+  success: { bg: '#F0FDF4', border: '#1A7F37', text: '#15803D' },
+  error:   { bg: '#FEE2E2', border: '#DC2626', text: '#B91C1C' },
   info:    { bg: '#E7F1FD', border: '#008BF5', text: '#008BF5' }
 };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, AlertTriangle, CheckCircle } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import AccordionSection from '../AccordionSection';
 import Modal from '../Modal';
@@ -23,7 +23,7 @@ function Stepper({ state }) {
 
   const activeColor = state === 'resubmitted' ? '#7C3AED'
     : state === 'approved' ? '#1A7F37'
-    : '#008BF5';
+    : '#0066B8';
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
@@ -123,16 +123,22 @@ export default function IntakeProfileTab({ applicant }) {
 
       {/* In review banner */}
       {state === 'inReview' && (
-        <div style={{ backgroundColor: '#FEF3C7', borderLeft: '3px solid #92400E', borderRadius: 6, padding: '12px 16px', marginBottom: 16 }}>
-          <p style={{ margin: 0, fontWeight: 600, fontSize: 13, color: '#92400E' }}>📋 Intake under review</p>
+        <div style={{ backgroundColor: '#F9FAFB', borderLeft: '4px solid #D97706', border: '1px solid #E5E7EB', borderRadius: 6, padding: '16px 20px', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <AlertTriangle size={16} style={{ color: '#92400E', flexShrink: 0 }} />
+            <span style={{ fontWeight: 700, fontSize: 14, color: '#92400E', lineHeight: 1.4 }}>Intake under review</span>
+          </div>
         </div>
       )}
 
       {/* Resubmitted banner */}
       {state === 'resubmitted' && (
-        <div style={{ backgroundColor: '#F3E8FF', border: '1px solid #7C3AED', borderRadius: 6, padding: 16, marginBottom: 16 }}>
-          <p style={{ margin: '0 0 4px', fontWeight: 600, fontSize: 13, color: '#7C3AED' }}>↺ Resubmitted by applicant</p>
-          <p style={{ margin: 0, fontSize: 13, color: '#7C3AED' }}>
+        <div style={{ backgroundColor: '#F9FAFB', borderLeft: '4px solid #7C3AED', border: '1px solid #E5E7EB', borderRadius: 6, padding: '16px 20px', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <RotateCcw size={16} style={{ color: '#6B21A8', flexShrink: 0 }} />
+            <span style={{ fontWeight: 700, fontSize: 14, color: '#6B21A8', lineHeight: 1.4 }}>Resubmitted by applicant</span>
+          </div>
+          <p style={{ margin: 0, fontSize: 14, color: '#242424', lineHeight: 1.6 }}>
             {applicant.name} has provided additional information for Employment Information and Substance Use. Please review and approve or request more information.
           </p>
         </div>
@@ -140,21 +146,25 @@ export default function IntakeProfileTab({ applicant }) {
 
       {/* Info requested banner */}
       {state === 'infoRequested' && (
-        <div style={{ backgroundColor: '#FEF3C7', borderLeft: '3px solid #92400E', borderRadius: 6, padding: '12px 16px', marginBottom: 16 }}>
-          <p style={{ margin: '0 0 4px', fontWeight: 600, fontSize: 13, color: '#92400E' }}>📤 Information requested</p>
-          <p style={{ margin: 0, fontSize: 13, color: '#92400E' }}>More information has been requested from {applicant.name}. Awaiting applicant response.</p>
+        <div style={{ backgroundColor: '#F9FAFB', borderLeft: '4px solid #D97706', border: '1px solid #E5E7EB', borderRadius: 6, padding: '16px 20px', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <AlertTriangle size={16} style={{ color: '#92400E', flexShrink: 0 }} />
+            <span style={{ fontWeight: 700, fontSize: 14, color: '#92400E', lineHeight: 1.4 }}>Information requested</span>
+          </div>
+          <p style={{ margin: 0, fontSize: 14, color: '#242424', lineHeight: 1.6 }}>More information has been requested from {applicant.name}. Awaiting applicant response.</p>
         </div>
       )}
 
       {/* Approved banner */}
       {state === 'approved' && (
-        <div style={{ backgroundColor: '#F0FDF4', borderLeft: '3px solid #1A7F37', border: '1px solid #E5E7EB', borderRadius: 6, padding: '14px 16px', marginBottom: 20 }}>
-          <p style={{ margin: '0 0 6px', color: '#1A7F37', fontWeight: 600, fontSize: 13 }}>
-            ✅ Intake profile approved on 1st Sep 2025
-          </p>
+        <div style={{ backgroundColor: '#F9FAFB', borderLeft: '4px solid #1A7F37', border: '1px solid #E5E7EB', borderRadius: 6, padding: '16px 20px', marginBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <CheckCircle size={16} style={{ color: '#15803D', flexShrink: 0 }} />
+            <span style={{ fontWeight: 700, fontSize: 14, color: '#15803D', lineHeight: 1.4 }}>Intake profile approved on 1st Sep 2025</span>
+          </div>
           <button
             onClick={() => setActiveTab('onboarding')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 13, fontWeight: 600, padding: 0 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 14, fontWeight: 600, padding: 0, textDecoration: 'underline' }}
           >
             Go to Onboarding Events →
           </button>
@@ -172,7 +182,7 @@ export default function IntakeProfileTab({ applicant }) {
           </button>
           <button
             onClick={() => setShowInfoModal(true)}
-            style={{ backgroundColor: '#fff', color: '#008BF5', border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+            style={{ backgroundColor: '#fff', color: '#0066B8', border: '1px solid #0066B8', borderRadius: 6, padding: '7px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
           >
             Request More Info
           </button>
@@ -317,13 +327,13 @@ export default function IntakeProfileTab({ applicant }) {
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             onClick={() => setShowApproveModal(false)}
-            style={{ flex: 1, border: '1px solid #008BF5', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
+            style={{ flex: 1, border: '1px solid #0066B8', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#0066B8' }}
           >
             Cancel
           </button>
           <button
             onClick={handleApprove}
-            style={{ flex: 1, backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+            style={{ flex: 1, backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
           >
             Confirm
           </button>

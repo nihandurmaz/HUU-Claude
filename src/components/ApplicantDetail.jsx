@@ -42,7 +42,7 @@ export default function ApplicantDetail() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <button
             onClick={goToDashboard}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, padding: 0 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, padding: 0 }}
           >
             <ChevronLeft size={16} /> Back to Dashboard
           </button>
@@ -86,7 +86,7 @@ export default function ApplicantDetail() {
           </div>
           <button
             onClick={() => setShowNotesPanel(n => !n)}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, border: '1px solid #008BF5', borderRadius: 6, padding: '7px 14px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, border: '1px solid #0066B8', borderRadius: 6, padding: '7px 14px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#0066B8' }}
           >
             <FileText size={15} /> Notes
           </button>

@@ -36,7 +36,7 @@ function HostCard({ host, onViewProfile }) {
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button
           onClick={() => onViewProfile(host)}
-          style={{ border: '1px solid #008BF5', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
+          style={{ border: '1px solid #0066B8', borderRadius: 6, padding: '7px 16px', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#0066B8' }}
         >
           View Full Profile
         </button>
@@ -51,7 +51,7 @@ function HostDetailView({ host, onBack, onInitiateMatch }) {
       <div style={{ flex: 1, padding: 24 }}>
         <button
           onClick={onBack}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 20, padding: 0 }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 20, padding: 0 }}
         >
           <ChevronLeft size={16} /> Back to All Hosts
         </button>
@@ -100,7 +100,7 @@ function HostDetailView({ host, onBack, onInitiateMatch }) {
       <div style={{ position: 'sticky', bottom: 0, backgroundColor: '#fff', borderTop: '1px solid #E5E7EB', padding: '16px 24px', display: 'flex', justifyContent: 'flex-end' }}>
         <button
           onClick={onInitiateMatch}
-          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+          style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
         >
           Initiate Match
         </button>
@@ -129,13 +129,13 @@ export default function HostGallery() {
             <div style={{ display: 'flex', gap: 8 }}>
               <button
                 onClick={() => setShowMatchModal(false)}
-                style={{ flex: 1, border: '1px solid #008BF5', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#008BF5' }}
+                style={{ flex: 1, border: '1px solid #0066B8', borderRadius: 6, padding: '8px 0', fontSize: 13, background: '#fff', cursor: 'pointer', color: '#0066B8' }}
               >
                 Cancel
               </button>
               <button
                 onClick={() => { setShowMatchModal(false); showToast(`Match initiated with ${detailHost.name}`, 'success'); }}
-                style={{ flex: 1, backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+                style={{ flex: 1, backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
               >
                 Confirm Match
               </button>
@@ -152,7 +152,7 @@ export default function HostGallery() {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
         <button
           onClick={() => setShowHostGallery(false)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, padding: 0 }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, padding: 0 }}
         >
           <ChevronLeft size={16} /> Back to AI Matches
         </button>

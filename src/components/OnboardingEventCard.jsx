@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Lock } from 'lucide-react';
 
 const borderColors = {
-  notScheduled: '#9CA3AF',
+  notScheduled: '#6B7280',
   scheduled: '#F59E0B',
   overdue: '#DC2626',
   completed: '#1A7F37'
@@ -44,7 +44,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
   const [compFormDate, setCompFormDate] = useState('');
   const [compFormTime, setCompFormTime] = useState('');
 
-  const borderColor = isLocked ? '#E5E7EB' : borderColors[eventState] || '#9CA3AF';
+  const borderColor = isLocked ? '#E5E7EB' : borderColors[eventState] || '#6B7280';
   const cardBg = eventState === 'completed' ? '#F9FAFB' : '#fff';
 
   const openScheduleForm = (prefill = false) => {
@@ -84,13 +84,13 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
     return (
       <div style={{ border: '1px solid #E5E7EB', borderLeft: '4px solid #E5E7EB', borderRadius: 6, padding: 16, backgroundColor: '#F9FAFB', marginBottom: 16, opacity: 0.7 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span style={{ fontWeight: 600, fontSize: 14, color: '#9CA3AF' }}>{eventName}</span>
-          <Lock size={16} style={{ color: '#9CA3AF', flexShrink: 0 }} />
+          <span style={{ fontWeight: 600, fontSize: 14, color: '#6B7280' }}>{eventName}</span>
+          <Lock size={16} style={{ color: '#6B7280', flexShrink: 0 }} />
         </div>
-        <p style={{ margin: '0 0 12px', fontSize: 13, color: '#9CA3AF', fontStyle: 'italic' }}>
+        <p style={{ margin: '0 0 12px', fontSize: 13, color: '#6B7280', fontStyle: 'italic' }}>
           Complete the Coordinator Interview first to unlock training scheduling.
         </p>
-        <button disabled style={{ backgroundColor: '#E5E7EB', color: '#9CA3AF', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, cursor: 'not-allowed', opacity: 0.5 }}>
+        <button disabled style={{ backgroundColor: '#E5E7EB', color: '#6B7280', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, cursor: 'not-allowed', opacity: 0.5 }}>
           {scheduleButtonLabel}
         </button>
       </div>
@@ -109,7 +109,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
       {eventState === 'notScheduled' && !showScheduleForm && (
         <button
           onClick={() => openScheduleForm(false)}
-          style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+          style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
         >
           {scheduleButtonLabel}
         </button>
@@ -131,7 +131,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
             </button>
             <button
               onClick={() => openScheduleForm(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#008BF5', fontSize: 13, fontWeight: 600 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0066B8', fontSize: 13, fontWeight: 600 }}
             >
               Reschedule
             </button>
@@ -154,7 +154,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
             </button>
             <button
               onClick={() => openScheduleForm(true)}
-              style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+              style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
             >
               Reschedule
             </button>
@@ -196,7 +196,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
           {schedError && <p style={{ margin: '0 0 8px', fontSize: 12, color: '#DC2626' }}>{schedError}</p>}
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={handleSendInvitation}
-              style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
               Send Invitation
             </button>
             <button onClick={() => setShowScheduleForm(false)}
@@ -225,7 +225,7 @@ export default function OnboardingEventCard({ eventName, description, scheduleBu
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={handleConfirmComplete}
-              style={{ backgroundColor: '#008BF5', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              style={{ backgroundColor: '#0066B8', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
               Confirm Completion
             </button>
             <button onClick={() => setShowCompleteForm(false)}
